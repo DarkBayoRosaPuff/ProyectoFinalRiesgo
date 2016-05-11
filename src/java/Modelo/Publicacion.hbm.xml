@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 11/05/2016 04:32:46 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.Publicacion" table="publicacion" schema="public" optimistic-lock="version">
+        <id name="idPublicacion" type="int">
+            <column name="id_publicacion" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="libro" class="Modelo.Libro" fetch="select">
+            <column name="id_libro" />
+        </many-to-one>
+        <many-to-one name="usuario" class="Modelo.Usuario" fetch="select">
+            <column name="elegido" />
+        </many-to-one>
+        <property name="finalizado" type="boolean">
+            <column name="finalizado" not-null="true" />
+        </property>
+        <property name="fecha" type="date">
+            <column name="fecha" length="13" not-null="true" />
+        </property>
+        <property name="lugarDeIntercambio" type="string">
+            <column name="lugar_de_intercambio" />
+        </property>
+        <set name="esCandidatos" table="es_candidato" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_publicacion" />
+            </key>
+            <one-to-many class="Modelo.EsCandidato" />
+        </set>
+    </class>
+</hibernate-mapping>

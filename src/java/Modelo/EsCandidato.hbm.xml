@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 11/05/2016 04:32:46 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.EsCandidato" table="es_candidato" schema="public" optimistic-lock="version">
+        <composite-id name="id" class="Modelo.EsCandidatoId">
+            <key-property name="idCandidato" type="java.lang.Integer">
+                <column name="id_candidato" />
+            </key-property>
+            <key-property name="idPublicacion" type="java.lang.Integer">
+                <column name="id_publicacion" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="publicacion" class="Modelo.Publicacion" update="false" insert="false" fetch="select">
+            <column name="id_publicacion" />
+        </many-to-one>
+        <many-to-one name="usuario" class="Modelo.Usuario" update="false" insert="false" fetch="select">
+            <column name="id_candidato" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
