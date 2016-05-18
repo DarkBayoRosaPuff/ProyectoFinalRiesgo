@@ -6,7 +6,7 @@
     <class name="Modelo.Libro" table="libro" schema="public" optimistic-lock="version">
         <id name="idLibro" type="int">
             <column name="id_libro" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="usuario" class="Modelo.Usuario" fetch="select">
             <column name="id_dueno" />
@@ -48,4 +48,8 @@
             <one-to-many class="Modelo.Publicacion" />
         </set>
     </class>
+    <sql-query name="BuscarLibro">
+	<return alias="Libro" class="Modelo.Libro"/>
+	<![CDATA[select * from libro where libro.idlibro = :id]]>
+    </sql-query>     
 </hibernate-mapping>

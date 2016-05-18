@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
-        <title>EBook</title>
+        <title>Editar Perfil</title>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>  
@@ -24,64 +24,42 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h2 class="standard-block" align="center">Inicia Sesión o Registrate</h2>
+                            <h2 class="standard-block" align="center">Formulario de Edición</h2>
                         </div>
                     </div>
                 </div>
-            </div>                
+            </div> 
             <nav class="clearfix">
-                <ul class="clearfix">
-                    <h:form>           
-                        <li><a href="#">Correo:</a></li>
-                        <li><a href="#"><p:inputText pt:placeholder="correo@ejemplo.com" value="#{usuarioBean.usuario.correo}"/></a></li>
-                        <li><a href="#">Contraseña:</a></li>
-                        <li><a href="#"><p:password pt:placeholder="*******" value="#{usuarioBean.usuario.contrasena}" /></a></li>
-                        <li><a href="#"><h:commandButton  value="Iniciar sesion" action="#{usuarioBean.login()}" styleClass="button solid-color"/></a></li>
-                        <li><a href="#"><h:commandButton  value="Registrarse" action="RegistrarIH" styleClass="button extra-color"/></a></li>
-                    </h:form>
+                <ul class="clearfix">            
+                    <div align="center"> 
+                        <h:form>
+                            <h:commandButton value="Regresar" action="PerfilIH" styleClass="button solid-color" />
+                            <h:commandButton value="Cerrar Sesion" action="#{usuarioBean.cerrarSesion()}" styleClass="button solid-color" />
+                        </h:form>    
+                    </div>
                 </ul>
-            </nav>
-            <div class="pullcontainer">
-                <a href="#" id="pull"><i class="fa fa-bars fa-2x"></i></a>
-            </div>     
+            </nav>    
         </header>
 
-
-        <div class="banner">
-            <ul>
-                <li style="background-image: url('img/01.jpg');">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                                <div class="hero-title">
-                                    Intercambio de libros
-                                </div>
-                                <p class="hero-content">Un amplio catálogo de donde escoger</p>
-                                <a href="#" class="hero-btn">Registrate ya</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li style="background-image: url('img/02.jpg');">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                                <div class="hero-title">
-                                    Miles de persona registradas
-                                </div>
-                                <p class="hero-content">Mejor sitio de intercambio</p>
-                                <a href="#" class="hero-btn">Unete</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>        
-
-
-        <div class="container">
-            <div class="arrow"></div>
-        </div>
+        <div align="center">   
+            <h:form>
+                <span class="byline">
+                    <h:panelGrid columns="1">
+                        <h3 align="center">Nuevo usuario:</h3>
+                        <p:inputText pt:placeholder="Usuario" value="#{usuarioBean.usuario.nombre}"/>
+                        <h3 align="center">Nuevo Teléfono:</h3>
+                        <p:inputText pt:placeholder="Usuario" value="#{usuarioBean.usuario.telefono}"/>                        
+                        <h3 align="center">Nueva Contraseña:</h3>
+                        <p:password id="pwd1" value="#{usuarioBean.usuario.contrasena}" match="pwd2" label="Contraseña" required="true"
+                                    placeholder="Contraseña"/>
+                        <h3 align="center">Confirmación de contraseña:</h3>
+                        <p:password id="pwd2" value="#{usuarioBean.usuario.contrasena}" label="Confirmacion" required="true"
+                                    placeholder="Confirmacion"/>
+                        <h:commandButton value="Actualizar" action="#{usuarioBean.editarDatos()}" styleClass="button solid-color" />	 
+                    </h:panelGrid>
+                </span>
+            </h:form>             
+        </div>    
 
         <div class="container carousel"/>
         <div class="row"/>
@@ -231,14 +209,14 @@
                     </div>
                     <div class="col-md-2">
                         <p><h2><a href="https://github.com/DarkBayoRosaPuff/ProyectoFinalRiesgo" >GITHUB</a></h2></p>
-                    </div>
+                    </div> 
                 </div>
             </div>  
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/scripts.js"></script>
-        <script src="js/unslider.min.js"></script>
+        <script src="js/unslider.min.js"></script>        
 
     </h:body>
 </html>
