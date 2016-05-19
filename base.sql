@@ -1,5 +1,3 @@
-CREATE DATABASE proyectoFinal;
-
 \connect proyectoFinal
 
 CREATE TABLE usuario(
