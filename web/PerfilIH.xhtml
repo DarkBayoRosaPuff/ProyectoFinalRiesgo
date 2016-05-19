@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
-        <title>EBook</title>
+        <title>Perfil</title>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>  
@@ -19,69 +19,33 @@
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'/>
     </h:head>
     <h:body>
-        <header class="clearfix">    
+        <header class="clearfix">
             <div class="h2-wrap">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h2 class="standard-block" align="center">Inicia Sesión o Registrate</h2>
+                            <h2 class="standard-block" align="center">Bienvenid@</h2>
                         </div>
                     </div>
                 </div>
             </div>                
             <nav class="clearfix">
                 <ul class="clearfix">
-                    <h:form>           
-                        <li><a href="#">Correo:</a></li>
-                        <li><a href="#"><p:inputText pt:placeholder="correo@ejemplo.com" value="#{usuarioBean.usuario.correo}"/></a></li>
-                        <li><a href="#">Contraseña:</a></li>
-                        <li><a href="#"><p:password pt:placeholder="*******" value="#{usuarioBean.usuario.contrasena}" /></a></li>
-                        <li><a href="#"><h:commandButton  value="Iniciar sesion" action="#{usuarioBean.login()}" styleClass="button solid-color"/></a></li>
-                        <li><a href="#"><h:commandButton  value="Registrarse" action="RegistrarIH" styleClass="button extra-color"/></a></li>
+                    <h:form>      
+                        <li><a href="#">Tu nombre:</a></li>
+                        <li><a href="#" class="active"><p:outputLabel style="font-weight:bold;" value="#{usuarioBean.usuario.nombre}"/></a></li>
+                        <li><a href="#">Tu Correo:</a></li>
+                        <li><a href="#"><p:outputLabel style="font-weight:bold;" value="#{usuarioBean.usuario.correo}"/></a></li>
+                        <li><h:commandButton value="Editar perfil" action="EditarPerfilIH" styleClass="button solid-color"/></li>
+                        <li><h:commandButton value="Publicar" action="PublicarIH" styleClass="button solid-color"/></li> 
+                        <li><h:commandButton value="Cerrar Sesion" action="#{usuarioBean.cerrarSesion()}" styleClass="button solid-color" /></li>
                     </h:form>
                 </ul>
             </nav>
             <div class="pullcontainer">
                 <a href="#" id="pull"><i class="fa fa-bars fa-2x"></i></a>
             </div>     
-        </header>
-
-
-        <div class="banner">
-            <ul>
-                <li style="background-image: url('img/01.jpg');">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                                <div class="hero-title">
-                                    Intercambio de libros
-                                </div>
-                                <p class="hero-content">Un amplio catálogo de donde escoger</p>
-                                <a href="#" class="hero-btn">Registrate ya</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li style="background-image: url('img/02.jpg');">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                                <div class="hero-title">
-                                    Miles de persona registradas
-                                </div>
-                                <p class="hero-content">Mejor sitio de intercambio</p>
-                                <a href="#" class="hero-btn">Unete</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>        
-
-
-        <div class="container">
-            <div class="arrow"></div>
-        </div>
+        </header>   
 
         <div class="container carousel"/>
         <div class="row"/>
@@ -231,14 +195,14 @@
                     </div>
                     <div class="col-md-2">
                         <p><h2><a href="https://github.com/DarkBayoRosaPuff/ProyectoFinalRiesgo" >GITHUB</a></h2></p>
-                    </div>
+                    </div> 
                 </div>
             </div>  
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/scripts.js"></script>
-        <script src="js/unslider.min.js"></script>
+        <script src="js/unslider.min.js"></script>      
 
     </h:body>
 </html>

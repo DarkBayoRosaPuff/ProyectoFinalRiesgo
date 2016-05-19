@@ -3,9 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>EBook</title>
+        <title>Publicar</title>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>  
@@ -24,64 +25,60 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h2 class="standard-block" align="center">Inicia Sesión o Registrate</h2>
+                            <h2 class="standard-block" align="center">Formulario de Publicacion</h2>
                         </div>
                     </div>
                 </div>
-            </div>                
+            </div> 
+    
             <nav class="clearfix">
-                <ul class="clearfix">
-                    <h:form>           
-                        <li><a href="#">Correo:</a></li>
-                        <li><a href="#"><p:inputText pt:placeholder="correo@ejemplo.com" value="#{usuarioBean.usuario.correo}"/></a></li>
-                        <li><a href="#">Contraseña:</a></li>
-                        <li><a href="#"><p:password pt:placeholder="*******" value="#{usuarioBean.usuario.contrasena}" /></a></li>
-                        <li><a href="#"><h:commandButton  value="Iniciar sesion" action="#{usuarioBean.login()}" styleClass="button solid-color"/></a></li>
-                        <li><a href="#"><h:commandButton  value="Registrarse" action="RegistrarIH" styleClass="button extra-color"/></a></li>
-                    </h:form>
+                <ul class="clearfix">            
+                    <div align="center"> 
+                        <h:form>
+                            <h:commandButton value="Regresar" action="PerfilIH" styleClass="button solid-color" />
+                            <h:commandButton value="Cerrar Sesion" action="#{usuarioBean.cerrarSesion()}" styleClass="button solid-color" />
+                        </h:form>    
+                    </div>
                 </ul>
-            </nav>
-            <div class="pullcontainer">
-                <a href="#" id="pull"><i class="fa fa-bars fa-2x"></i></a>
-            </div>     
+            </nav>             
+            
         </header>
 
+        <div align="center">   
+            <h:form>
+                <span class="byline">
+                    <h:panelGrid columns="1">
+                        <h3 align="center">Titulo:</h3>
+                        <p:inputText pt:placeholder="Titulo" value="#{libroBean.libro.titulo}" label="Titulo" required="true"/>
 
-        <div class="banner">
-            <ul>
-                <li style="background-image: url('img/01.jpg');">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                                <div class="hero-title">
-                                    Intercambio de libros
-                                </div>
-                                <p class="hero-content">Un amplio catálogo de donde escoger</p>
-                                <a href="#" class="hero-btn">Registrate ya</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li style="background-image: url('img/02.jpg');">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                                <div class="hero-title">
-                                    Miles de persona registradas
-                                </div>
-                                <p class="hero-content">Mejor sitio de intercambio</p>
-                                <a href="#" class="hero-btn">Unete</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>        
+                        <h3 align="center">Autor:</h3>
+                        <p:inputText pt:placeholder="Autor" value="#{libroBean.libro.autor}" label="Autor" required="true"/>
 
+                        <h3 align="center">Editorial:</h3>
+                        <p:inputText pt:placeholder="Editorial" value="#{libroBean.libro.editorial}" label="Editorial" required="true"/>
 
-        <div class="container">
-            <div class="arrow"></div>
-        </div>
+                        <h3 align="center">Edición:</h3>
+                        <p:inputText pt:placeholder="Edición" value="#{libroBean.libro.edicion}" label="Confirmacion" required="true"/>
+                        
+                        <h3 align="center">Año:</h3>
+                        <p:inputText pt:placeholder="Año" value="#{libroBean.anio}" label="Año" required="true"/>                        
+                        
+                        <h3 align="center">ISBN:</h3>
+                        <p:inputText pt:placeholder="ISBN" value="#{libroBean.libro.isbn}" label="ISBN" required="true"/>                                    
+                        
+                        <h3 align="center">Reseña:</h3>
+                        <p:inputText pt:placeholder="Reseña" value="#{libroBean.libro.resena}" label="Reseña" required="true"/>                         
+
+                        <h3 align="center">Foto:</h3>
+                        <p:inputText pt:placeholder="Foto" value="#{libroBean.libro.foto}" label="Foto" required="true"/> 
+                        
+                        <h:commandButton value="Publicar" action="#{libroBean.registrarLibro()}" styleClass="button solid-color"> 
+                            <f:actionListener binding="#{publicacionBean.registrarPublicacion(libroBean.libro.idLibro)}"/>
+                                         </h:commandButton>	 
+                    </h:panelGrid>
+                </span>
+            </h:form>             
+        </div>    
 
         <div class="container carousel"/>
         <div class="row"/>
@@ -231,14 +228,14 @@
                     </div>
                     <div class="col-md-2">
                         <p><h2><a href="https://github.com/DarkBayoRosaPuff/ProyectoFinalRiesgo" >GITHUB</a></h2></p>
-                    </div>
+                    </div> 
                 </div>
             </div>  
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/scripts.js"></script>
-        <script src="js/unslider.min.js"></script>
+        <script src="js/unslider.min.js"></script>        
 
     </h:body>
 </html>
