@@ -1,6 +1,6 @@
-CREATE DATABASE libros;
+CREATE DATABASE proyectoFinal;
 
-\connect libros
+\connect proyectoFinal
 
 CREATE TABLE usuario(
 id_usuario SERIAL PRIMARY KEY,
