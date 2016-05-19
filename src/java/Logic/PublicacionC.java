@@ -27,14 +27,12 @@ public class PublicacionC {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
 
-    public void registrarBD(Publicacion publicacion, Usuario usu, int id) {
+    public void registrarBD(Publicacion publicacion, Usuario usu, Libro l) {
         Transaction tx = session.beginTransaction();
         java.util.Date fecha = new Date();
-          Libro l = new Libro();
-          l.setIdLibro(id);
-          publicacion.setLibro(l);
-          publicacion.setUsuario(usu);
-          publicacion.setFecha(fecha);
+        publicacion.setLibro(l);
+        publicacion.setUsuario(usu);
+        publicacion.setFecha(fecha);
         session.save(publicacion);
         session.getTransaction().commit();
     }
@@ -52,5 +50,5 @@ public class PublicacionC {
         }
         return null;
     }
-    
+
 }

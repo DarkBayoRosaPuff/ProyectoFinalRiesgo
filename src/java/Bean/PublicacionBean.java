@@ -37,9 +37,9 @@ public class PublicacionBean {
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
     }
 
-    public String registrarPublicacion(int id) {
+    public String registrarPublicacion(Libro l) {
         try {
-            helper.registrarBD(publicacion, usuario, id);
+            helper.registrarBD(publicacion, usuario, l);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Publicacion realizada con éxito", null);
             faceContext.addMessage(null, message);
             publicacion = new Publicacion();
