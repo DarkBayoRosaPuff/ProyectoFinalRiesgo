@@ -37,6 +37,7 @@ public class PublicacionBean {
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
     }
 
+//No sirve publicar Chovi :v    
     public String registrarPublicacion(Libro l) {
         try {
             helper.registrarBD(publicacion, usuario, l);

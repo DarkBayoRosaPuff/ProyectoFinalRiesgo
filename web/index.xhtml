@@ -19,7 +19,7 @@
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'/>
     </h:head>
     <h:body>
-        <header class="clearfix">    
+        <header class="clearfix">  
             <div class="h2-wrap">
                 <div class="container">
                     <div class="row">
@@ -29,6 +29,7 @@
                     </div>
                 </div>
             </div>                
+            <p:messages id="messages" showDetail="false" autoUpdate="true" styleClass="standard-block" />  
             <nav class="clearfix">
                 <ul class="clearfix">
                     <h:form>           
@@ -37,7 +38,7 @@
                         <li><a href="#">Contraseña:</a></li>
                         <li><a href="#"><p:password pt:placeholder="*******" value="#{usuarioBean.usuario.contrasena}" /></a></li>
                         <li><a href="#"><h:commandButton  value="Iniciar sesion" action="#{usuarioBean.login()}" styleClass="button solid-color"/></a></li>
-                        <li><a href="#"><h:commandButton  value="Registrarse" action="RegistrarIH" styleClass="button extra-color"/></a></li>
+                        <li><a href="#"><h:commandButton  value="Registrarse" action="RegistrarIH" styleClass="button extra-color"/></a></li> 
                     </h:form>
                 </ul>
             </nav>

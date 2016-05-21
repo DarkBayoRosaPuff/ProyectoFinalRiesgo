@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import Modelo.Libro;
 import Modelo.Usuario;
 import Logic.LibroC;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Clase para manejar libros.
@@ -43,6 +45,7 @@ public class LibroBean {
             helper.registrarBD(libro, usuario);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Publicacion realizada con éxito", null);
             faceContext.addMessage(null, message);
+            libro = new Libro();
             return "PerfilIH";
         } catch (org.hibernate.TransientPropertyValueException ex) {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio un error al publicar", null);

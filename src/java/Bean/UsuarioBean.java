@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import Logic.UsuarioC;
 import Modelo.Usuario;
-import org.hibernate.exception.ConstraintViolationException;
 
 /**
  *
@@ -37,18 +36,19 @@ public class UsuarioBean {
     public UsuarioBean() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
+        if (usuario == null)
+            usuario = new Usuario();
         helper = new UsuarioC();
     }
 
     public String registrar() {
-        System.out.println("Intentando insertar al usuario: " + usuario.getNombre() + ", " + usuario.getCorreo() + ", " + usuario.getContrasena());
         try {
 
             String contrasenaCifrada = cifrarContrasena();
             usuario.setContrasena(contrasenaCifrada);
 
             helper.registrarBD(usuario);
-            //asignar a sessionUsuario (pork iniciara sesion automaticamente el usuario k se registro) O no....
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro finalizado correctamente", null);
             faceContext.addMessage(null, message);
         } catch (org.hibernate.exception.ConstraintViolationException ex) {
@@ -104,7 +104,7 @@ public class UsuarioBean {
                 }else{ //Contrasena incorrecta
                     message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "La contrasena introducida es incorrecta.", null);
                     faceContext.addMessage(null, message);
-                    return "PerfilIH";
+                    return "index";
                 }
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,10 +115,10 @@ public class UsuarioBean {
             return "index";
         }
         return "index";
-    }    
+    }  
 
     public String cerrarSesion() {
-	FacesContext.getCurrentInstance().getExternalContext().invalidateSession(); // Asi lo tengo yo en mi practica
+	FacesContext.getCurrentInstance().getExternalContext().invalidateSession(); 
         httpServletRequest.getSession().removeAttribute("sessionUsuario");
         message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Session cerrada correctamente", null);
         faceContext.addMessage(null, message);
@@ -127,7 +127,6 @@ public class UsuarioBean {
     }
 
     public String editarDatos() {
-        //System.out.println("|-| Datos a modificar: " + usuario.getNombre() + ", " + usuario.getContrasena());
         usuarioActual = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
         if (!usuario.getNombre().equals(""))// Solo se actualizara el nombre, si se escribio algo nuevo
         {
