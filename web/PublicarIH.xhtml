@@ -72,9 +72,9 @@
                         <h3 align="center">Foto:</h3>
                         <p:inputText pt:placeholder="Foto" value="#{libroBean.libro.foto}" label="Foto" required="true"/> 
                         
-                        <h:commandButton value="Publicar" action="#{libroBean.registrarLibro()}" styleClass="button solid-color"> 
-                            <f:actionListener binding="#{publicacionBean.registrarPublicacion(libroBean.libro.idLibro)}"/>
-                                         </h:commandButton>	 
+                       <h:commandButton value="Publicar" action="#{publicacionBean.registrarPublicacion(libroBean.libro)}" styleClass="button solid-color">
+                        </h:commandButton>
+                        
                     </h:panelGrid>
                 </span>
             </h:form>             
