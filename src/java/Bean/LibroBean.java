@@ -30,6 +30,7 @@ public class LibroBean {
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.
     private LibroC helper;
     private String anio = new String(); /* El año de publicación del libro */
+    private java.util.Date fecha = new Date();
 
     public LibroBean() {
         faceContext = FacesContext.getCurrentInstance();
@@ -41,7 +42,8 @@ public class LibroBean {
     public String registrarLibro() throws ParseException {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy");
-            libro.setAnio(formatter.parse(this.anio));
+            fecha = formatter.parse(this.anio);
+            libro.setAnio(fecha);
             helper.registrarBD(libro, usuario);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Publicacion realizada con éxito", null);
             faceContext.addMessage(null, message);
@@ -70,6 +72,12 @@ public class LibroBean {
     public void setAnio(String anio){
         this.anio=anio;
     }
-            
+    public Date getFecha(){
+        return fecha; 
+    }
+    
+    public void setFecha(Date fecha){
+        this.fecha= fecha;
+    }            
     
 }

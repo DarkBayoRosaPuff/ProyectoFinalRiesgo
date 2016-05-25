@@ -37,18 +37,18 @@ public class PublicacionBean {
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
     }
 
-//No sirve publicar Chovi :v    
+ 
     public String registrarPublicacion(Libro l) {
         try {
             helper.registrarBD(publicacion, usuario, l);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Publicacion realizada con éxito", null);
             faceContext.addMessage(null, message);
             publicacion = new Publicacion();
-            return "PublicarOfertaIH";
+            return "PerfilIH";
         } catch (org.hibernate.TransientPropertyValueException ex) {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio un error al publicar", null);
             faceContext.addMessage(null, message);
-            return "PublicarOfertaIH";
+            return "PublicarIH";
         }
 
     }

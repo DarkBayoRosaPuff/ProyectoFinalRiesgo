@@ -33,6 +33,7 @@ public class PublicacionC {
         publicacion.setLibro(l);
         publicacion.setUsuario(usu);
         publicacion.setFecha(fecha);
+        l.setUsuario(usu);
         session.save(publicacion);
         session.getTransaction().commit();
     }

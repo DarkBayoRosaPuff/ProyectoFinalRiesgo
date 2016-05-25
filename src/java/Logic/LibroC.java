@@ -23,8 +23,6 @@ public class LibroC {
 
     public void registrarBD(Libro libro, Usuario usu) {
         Transaction tx = session.beginTransaction();
-        java.util.Date fecha = new Date();
-          libro.setUsuario(usu);
         session.save(libro);
         session.getTransaction().commit();
     }
