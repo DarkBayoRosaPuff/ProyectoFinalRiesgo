@@ -17,19 +17,27 @@ public class LibroC {
     private Session session;
     private Usuario usuario = new Usuario();
 
-    public LibroC() {
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
-    }
-
     public void registrarBD(Libro libro, Usuario usu) {
-        Transaction tx = session.beginTransaction();
-        session.save(libro);
-        session.getTransaction().commit();
+        try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
+            Transaction tx = session.beginTransaction();
+            session.save(libro);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
     }
 
     public Libro buscarLibro(Integer id) {
         Libro resultado;
         try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
             Transaction tx = session.beginTransaction();
             Query q = session.getNamedQuery("BuscarLibro").setInteger("id", id);
             resultado = (Libro) q.uniqueResult();
@@ -37,8 +45,10 @@ public class LibroC {
             return resultado;
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+           session.close();
         }
         return null;
     }
-    
+
 }

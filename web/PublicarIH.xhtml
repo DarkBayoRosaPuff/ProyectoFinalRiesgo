@@ -49,30 +49,34 @@
                 <span class="byline">
                     <h:panelGrid columns="1">
                         <h3 align="center">Titulo:</h3>
-                        <p:inputText pt:placeholder="Titulo" value="#{libroBean.libro.titulo}" label="Titulo" required="true"/>
+                        <p:inputText pt:placeholder="Titulo" value="#{publicacionBean.libro.titulo}" label="Titulo" required="true"/>
 
                         <h3 align="center">Autor:</h3>
-                        <p:inputText pt:placeholder="Autor" value="#{libroBean.libro.autor}" label="Autor" required="true"/>
+                        <p:inputText pt:placeholder="Autor" value="#{publicacionBean.libro.autor}" label="Autor" required="true"/>
 
                         <h3 align="center">Editorial:</h3>
-                        <p:inputText pt:placeholder="Editorial" value="#{libroBean.libro.editorial}" label="Editorial" required="true"/>
+                        <p:inputText pt:placeholder="Editorial" value="#{publicacionBean.libro.editorial}" label="Editorial" required="true"/>
 
                         <h3 align="center">Edición:</h3>
-                        <p:inputText pt:placeholder="Edición" value="#{libroBean.libro.edicion}" label="Confirmacion" required="true"/>
+                        <p:inputText pt:placeholder="Edición" value="#{publicacionBean.libro.edicion}" label="Confirmacion" required="true"/>
                         
                         <h3 align="center">Año:</h3>
-                        <p:inputText pt:placeholder="Año" value="#{libroBean.anio}" label="Año" required="true"/>                        
+                        <p:inputText pt:placeholder="Año" value="#{publicacionBean.anio}" label="Año" required="true"/>                        
                         
                         <h3 align="center">ISBN:</h3>
-                        <p:inputText pt:placeholder="ISBN" value="#{libroBean.libro.isbn}" label="ISBN" required="true"/>                                    
+                        <p:inputText pt:placeholder="ISBN" value="#{publicacionBean.libro.isbn}" label="ISBN" required="true"/>                                    
                         
                         <h3 align="center">Reseña:</h3>
-                        <p:inputText pt:placeholder="Reseña" value="#{libroBean.libro.resena}" label="Reseña" required="true"/>                         
+                        <p:inputText pt:placeholder="Reseña" value="#{publicacionBean.libro.resena}" label="Reseña" required="true"/>                         
 
                         <h3 align="center">Foto:</h3>
-                        <p:inputText pt:placeholder="Foto" value="#{libroBean.libro.foto}" label="Foto" required="true"/> 
+                        <p:inputText pt:placeholder="Foto" value="#{publicacionBean.libro.foto}" label="Foto" required="true"/> 
                         
-                       <h:commandButton value="Publicar" action="#{publicacionBean.registrarPublicacion(libroBean.libro)}" styleClass="button solid-color">
+                        <h3 align="center">Lugar de intercambio:</h3>
+                        <p:inputText pt:placeholder="Lugar de intercambio" value="#{publicacionBean.publicacion.lugarDeIntercambio}" label="Foto" required="true"/> 
+                        
+                        
+                       <h:commandButton value="Publicar" action="#{publicacionBean.registrarPublicacion()}" styleClass="button solid-color">
                         </h:commandButton>
                         
                     </h:panelGrid>

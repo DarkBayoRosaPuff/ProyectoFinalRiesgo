@@ -15,17 +15,23 @@ import org.hibernate.Transaction;
  * @author jorge
  */
 public class UsuarioC {
-    
+
     private Session session;
 
-    public UsuarioC() {
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
-    }
-    
     public void registrarBD(Usuario usuario) {
-        Transaction tx = session.beginTransaction();
-        session.save(usuario);
-        tx.commit();
+        try {
+
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
+            Transaction tx = session.beginTransaction();
+            session.save(usuario);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
     public Session getSession() {
@@ -33,41 +39,54 @@ public class UsuarioC {
     }
 
     public Usuario autentificar(Usuario usuario) {
-        Usuario resultado;
+        Usuario resultado = null;
         try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
             Transaction tx = session.beginTransaction();
             Query q = session.getNamedQuery("BuscarPorCorreo").setString("correo", usuario.getCorreo());
             // INCLUIR EN EL .SETSTRING TAMBN LA CONTRASEÑA DEL USUARIO PERO LUEGO VEMOS CON EL MD5, IGUAL Y SE HACE EN EL BEAN
             resultado = (Usuario) q.uniqueResult();
-            //Si regresa null, significa que el usuario no esta registrado en la BD, no recuerdo donde afecta eso
-            session.close();
-            return resultado;
+            //Si regresa null, significa que el usuario no esta registrado en la BD, no recuerdo donde afecta es
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            session.close();
+            return resultado;
         }
-        return null;
-    }    
+
+    }
 
     public Usuario buscarPorCorreo(String correo) {
         Usuario resultado;
         try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
             Transaction tx = session.beginTransaction();
             Query q = session.getNamedQuery("BuscarPorCorreo").setString("correo", correo);
             resultado = (Usuario) q.uniqueResult();
-            session.close();
             return resultado;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            session.close();
         }
         return null;
-    }    
+    }
 
     public void actualizarUsuarioBD(Usuario usuario) {
-        session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.update(usuario);
-        session.getTransaction().commit();
-        session.close();
-    }    
-    
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.update(usuario);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
 }

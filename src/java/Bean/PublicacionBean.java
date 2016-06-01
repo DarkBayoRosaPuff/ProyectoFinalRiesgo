@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */ 
+ */
 package Bean;
 
 import javax.faces.application.FacesMessage;
@@ -15,10 +15,9 @@ import Modelo.Publicacion;
 import Modelo.Usuario;
 import Logic.PublicacionC;
 import Modelo.Libro;
-/**
- *
- * @author jorge
- */
+import java.text.ParseException;
+import java.util.Date;
+
 @ManagedBean
 @RequestScoped
 public class PublicacionBean {
@@ -29,7 +28,9 @@ public class PublicacionBean {
     private final FacesContext faceContext; // Obtiene información de la aplicación
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.
     private PublicacionC helper;
-        
+    private Libro libro = new Libro(); /* El libro de la publicación */ 
+    private String anio;
+
     public PublicacionBean() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
@@ -37,13 +38,14 @@ public class PublicacionBean {
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
     }
 
- 
-    public String registrarPublicacion(Libro l) {
+    public String registrarPublicacion() throws ParseException {
         try {
-            helper.registrarBD(publicacion, usuario, l);
+            libro.setAnio(anio);
+            publicacion.setUsuario(usuario);
+            publicacion.setFecha(new Date());
+            helper.registrarBD(publicacion, usuario, libro);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Publicacion realizada con éxito", null);
             faceContext.addMessage(null, message);
-            publicacion = new Publicacion();
             return "PerfilIH";
         } catch (org.hibernate.TransientPropertyValueException ex) {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio un error al publicar", null);
@@ -59,6 +61,24 @@ public class PublicacionBean {
 
     public void setPublicacion(Publicacion publicacion) {
         this.publicacion = publicacion;
-    }    
-    
+    }
+
+    /* Regresa el año de publicación del libro */
+    public String getAnio() {
+        return this.anio;
+    }
+
+    /* Pone el año de publicación del libro */
+    public void setAnio(String anio) {
+        this.anio = anio;
+    }
+
+    public Libro getLibro() {
+        return libro;
+    }
+
+    public void setLibro(Libro libro) {
+        this.libro = libro;
+    }
+
 }
