@@ -6,7 +6,9 @@
     <class name="Modelo.Publicacion" table="publicacion" schema="public" optimistic-lock="version">
         <id name="idPublicacion" type="int">
             <column name="id_publicacion" />
-            <generator class="identity" />
+            <generator class="sequence">
+                <param name="sequence">publicacion_id_publicacion_seq</param>
+            </generator>
         </id>
         <many-to-one name="usuarioByIdDueno" class="Modelo.Usuario" fetch="select">
             <column name="id_dueno" />
