@@ -10,6 +10,7 @@ import Modelo.Usuario;
 import Modelo.Libro;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 
 public class PublicacionC {
 
@@ -100,4 +101,22 @@ public class PublicacionC {
         }
     }
 
+    /* Regresa el id del siguiente Libro que registraremos */
+    public Integer getNextIdLibro() {
+        try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
+            Transaction tx = session.beginTransaction();
+            Criteria criteria = session
+                    .createCriteria(Libro.class)
+                    .setProjection(Projections.max("idLibro"));
+            return (Integer) criteria.uniqueResult() + 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return null;
+    }
 }

@@ -46,7 +46,7 @@ public class UsuarioC {
         Usuario resultado = null;
         try {
             if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().getCurrentSession();
+                session = HibernateUtil.getSessionFactory().openSession();
             }
             Transaction tx = session.beginTransaction();
             Query q = session.getNamedQuery("BuscarPorCorreo").setString("correo", usuario.getCorreo());

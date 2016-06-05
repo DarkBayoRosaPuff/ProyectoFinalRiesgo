@@ -4,16 +4,17 @@ import Logic.PublicacionC;
 import Modelo.Libro;
 import Modelo.Publicacion;
 import Modelo.Usuario;
+import java.io.Serializable;
 import java.util.List;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 
 @ManagedBean
+@Named(value = "publicacionesBean")
 @ViewScoped
-public class PublicacionesBean {
+public class PublicacionesBean implements Serializable{
 
     private List<Publicacion> lstPublicacion;
     /* Lista de publicaciones */

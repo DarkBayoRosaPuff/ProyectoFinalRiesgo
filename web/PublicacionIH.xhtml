@@ -4,8 +4,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:p="http://primefaces.org/ui">
-      <h:head>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+    <h:head>
         <title>Publicación</title>
         <div>Fecha de publicación: 
             <h:outputText value="#{mostrarPublicacionBean.publicacion.fecha}"/> 
@@ -17,7 +18,7 @@
             <h:outputText value="#{mostrarPublicacionBean.publicacion.libro.autor}"/>
         </div>
         <div>Edición: 
-            <h:outputText value="#{mostrarPublicacionBean.publicacion.libro.edicion}° edición"/> 
+            <h:outputText value="#{mostrarPublicacionBean.publicacion.libro.edicion}"/> 
         </div>
         <div>Editorial: 
             <h:outputText value="#{mostrarPublicacionBean.publicacion.libro.editorial}"/> 
@@ -32,6 +33,7 @@
             <h:outputText value="#{mostrarPublicacionBean.publicacion.libro.resena}"/> 
         </div>
         <!-- La foto -->
-        <p:graphicImage value="#{mostrarPublicacionBean.publicacion.libro.getRutaFoto()}" width="200"/>
+        <o:graphicImage value="#{mostrarPublicacionBean.mostrarImagen()}" 
+                        width="200" lastModified="#{mostrarPublicacionBean.lastModified}"/>
     </h:head>
 </html>

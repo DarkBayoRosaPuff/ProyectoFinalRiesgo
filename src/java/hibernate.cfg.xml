@@ -9,9 +9,9 @@
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <mapping resource="Modelo/Libro.hbm.xml"/>
-    <mapping resource="Modelo/Publicacion.hbm.xml"/>
-    <mapping resource="Modelo/EsCandidato.hbm.xml"/>
-    <mapping resource="Modelo/Usuario.hbm.xml"/>
+    <mapping resource="xml/Libro.hbm.xml"/>
+    <mapping resource="xml/Publicacion.hbm.xml"/>
+    <mapping resource="xml/EsCandidato.hbm.xml"/>
+    <mapping resource="xml/Usuario.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

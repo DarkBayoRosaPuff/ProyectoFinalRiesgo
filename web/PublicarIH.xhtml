@@ -41,11 +41,11 @@
                     </div>
                 </ul>
             </nav>             
-            
+
         </header>
 
         <div align="center">   
-            <h:form>
+            <h:form enctype="multipart/form-data">
                 <span class="byline">
                     <h:panelGrid columns="1">
                         <h3 align="center">Titulo:</h3>
@@ -59,26 +59,28 @@
 
                         <h3 align="center">Edición:</h3>
                         <p:inputText pt:placeholder="Edición" value="#{publicacionBean.libro.edicion}" label="Edición"/>
-                        
+
                         <h3 align="center">Año:</h3>
                         <p:inputText pt:placeholder="Año" value="#{publicacionBean.anio}" label="Año"/>                        
-                        
+
                         <h3 align="center">ISBN:</h3>
                         <p:inputText pt:placeholder="ISBN" value="#{publicacionBean.libro.isbn}" label="ISBN"/>                                    
-                        
+
                         <h3 align="center">Reseña:</h3>
                         <p:inputText pt:placeholder="Reseña" value="#{publicacionBean.libro.resena}" label="Reseña"/>                         
-
-                        <h3 align="center">Foto:</h3>
-                        <p:inputText pt:placeholder="Foto" value="#{publicacionBean.libro.foto}" label="Foto"/> 
-                        
+                        <!-- Subir imágenes -->
+                        <h3 align="center">Imagen:</h3>
+                        <p:growl id="messages" showDetail="true" />
+                        <p:fileUpload value="#{publicacionBean.imagen}" mode="simple"/>
+                        <p:commandButton value="Subir foto" ajax="false"
+                                         actionListener="#{publicacionBean.guardaImagen()}"/>
                         <h3 align="center">Lugar de intercambio:</h3>
                         <p:inputText pt:placeholder="Lugar de intercambio" value="#{publicacionBean.publicacion.lugarDeIntercambio}" label="Lugar de intercambio"/> 
-                        
-                        
-                       <h:commandButton value="Publicar" action="#{publicacionBean.registrarPublicacion()}" styleClass="button solid-color">
+
+
+                        <h:commandButton value="Publicar" action="#{publicacionBean.registrarPublicacion()}" styleClass="button solid-color">
                         </h:commandButton>
-                        
+
                     </h:panelGrid>
                 </span>
             </h:form>             

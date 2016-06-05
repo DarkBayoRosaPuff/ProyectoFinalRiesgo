@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import Logic.UsuarioC;
 import Modelo.Usuario;
+import javax.inject.Named;
 
 /**
  *
@@ -19,6 +20,7 @@ import Modelo.Usuario;
  */
 @ManagedBean
 @RequestScoped
+@Named(value = "usuarioBean")
 public class UsuarioBean {
 
     private Usuario usuario = new Usuario();    //Representa al usuario actual
@@ -115,10 +117,9 @@ public class UsuarioBean {
     public String cerrarSesion() {
 	FacesContext.getCurrentInstance().getExternalContext().invalidateSession(); 
         httpServletRequest.getSession().removeAttribute("sessionUsuario");
-        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Session cerrada correctamente", null);
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sesion cerrada correctamente", null);
         faceContext.addMessage(null, message);
-        System.out.println("|-| Sesion cerrada correctamente");
-	return "index";
+   	return "index";
     }
 
     public String editarDatos() {
