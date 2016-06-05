@@ -1,5 +1,5 @@
 package Modelo;
-// Generated 11/05/2016 04:32:45 PM by Hibernate Tools 4.3.1
+// Generated 4/06/2016 10:51:19 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -28,8 +28,8 @@ public class Usuario  implements java.io.Serializable {
      private String contrasena;
      private String correo;
      private String telefono;
-     private Set libros = new HashSet(0);
-     private Set publicacions = new HashSet(0);
+     private Set publicacionsForIdDueno = new HashSet(0);
+     private Set publicacionsForElegido = new HashSet(0);
      private Set esCandidatos = new HashSet(0);
 
     public Usuario() {
@@ -42,14 +42,14 @@ public class Usuario  implements java.io.Serializable {
         this.contrasena = contrasena;
         this.correo = correo;
     }
-    public Usuario(int idUsuario, String nombre, String contrasena, String correo, String telefono, Set libros, Set publicacions, Set esCandidatos) {
+    public Usuario(int idUsuario, String nombre, String contrasena, String correo, String telefono, Set publicacionsForIdDueno, Set publicacionsForElegido, Set esCandidatos) {
        this.idUsuario = idUsuario;
        this.nombre = nombre;
        this.contrasena = contrasena;
        this.correo = correo;
        this.telefono = telefono;
-       this.libros = libros;
-       this.publicacions = publicacions;
+       this.publicacionsForIdDueno = publicacionsForIdDueno;
+       this.publicacionsForElegido = publicacionsForElegido;
        this.esCandidatos = esCandidatos;
     }
    
@@ -105,22 +105,22 @@ public class Usuario  implements java.io.Serializable {
         this.telefono = telefono;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
-    public Set getLibros() {
-        return this.libros;
+@OneToMany(fetch=FetchType.LAZY, mappedBy="usuarioByIdDueno")
+    public Set getPublicacionsForIdDueno() {
+        return this.publicacionsForIdDueno;
     }
     
-    public void setLibros(Set libros) {
-        this.libros = libros;
+    public void setPublicacionsForIdDueno(Set publicacionsForIdDueno) {
+        this.publicacionsForIdDueno = publicacionsForIdDueno;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
-    public Set getPublicacions() {
-        return this.publicacions;
+@OneToMany(fetch=FetchType.LAZY, mappedBy="usuarioByElegido")
+    public Set getPublicacionsForElegido() {
+        return this.publicacionsForElegido;
     }
     
-    public void setPublicacions(Set publicacions) {
-        this.publicacions = publicacions;
+    public void setPublicacionsForElegido(Set publicacionsForElegido) {
+        this.publicacionsForElegido = publicacionsForElegido;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")

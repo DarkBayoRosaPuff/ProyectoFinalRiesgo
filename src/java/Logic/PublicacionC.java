@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Logic;
 
 import org.hibernate.Query;
@@ -7,60 +12,56 @@ import java.util.Date;
 
 import Modelo.Publicacion;
 import Modelo.Usuario;
-import Modelo.Libro;
 import java.util.List;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Projections;
 
+/**
+ *
+ * @author jorge
+ */
 public class PublicacionC {
 
     private Session session;
     private Usuario usuario = new Usuario();
+    private List<Publicacion> lstPublicaciones;
 
-    public void registrarBD(Publicacion publicacion, Usuario usu, Libro l) {
-        try {
-            if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().getCurrentSession();
-            }
+    /**
+     * Constructor por omision
+     */
+    public PublicacionC() {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+    } 
+    
+    public void registrarBD(Publicacion publicacion, Usuario usu) {
             Transaction tx = session.beginTransaction();
             java.util.Date fecha = new Date();
-            publicacion.setLibro(l);
-            publicacion.setUsuario(usu);
+            publicacion.setUsuarioByIdDueno(usu);
             publicacion.setFecha(fecha);
-            l.setUsuario(usu);
-            session.save(l);
             session.save(publicacion);
             tx.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
+    /**
+     * Metodo que busca una publicacion en especifico dado su ID
+     * @param id ID de la publicacion a buscar
+     * @return Publicacion obtenida con el ID solicitado
+     */
     public Publicacion buscarPublicacion(Integer id) {
         Publicacion resultado;
         try {
-            if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().getCurrentSession();
-            }
             Transaction tx = session.beginTransaction();
             Query q = session.getNamedQuery("BuscarPublicacion").setInteger("id", id);
             resultado = (Publicacion) q.uniqueResult();
+            session.close();
             return resultado;
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return null;
     }
 
     public List<Publicacion> listar() {
-        List<Publicacion> lstPublicaciones = null;
-        /* La lista por regresar */
         try {
-            if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().getCurrentSession();
-            }
             Transaction tx = session.beginTransaction();
             Criteria cri = session.createCriteria(Publicacion.class);
             lstPublicaciones = cri.list();
@@ -73,9 +74,6 @@ public class PublicacionC {
     public Usuario getUsuario(int id) {
         Usuario l = null;
         try {
-            if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().getCurrentSession();
-            }
             l = (Usuario) session.get(Usuario.class, id);
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,38 +83,17 @@ public class PublicacionC {
         }
 
     }
+    
+    /**
+     * Metodo que actualiza la informacion de la publicacion en la base de datos
+     * @param publicacion Publicacion a modificar ne la base de datos
+     */
+    public void actualizarPublicacionBD(Publicacion publicacion) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.update(publicacion);
+        session.getTransaction().commit();
+        session.close();
+    }    
 
-    public Libro getLibro(int id) {
-        Libro l = null;
-        try {
-            if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().getCurrentSession();
-            }
-            l = (Libro) session.get(Libro.class, id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-            return l;
-        }
-    }
-
-    /* Regresa el id del siguiente Libro que registraremos */
-    public Integer getNextIdLibro() {
-        try {
-            if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().getCurrentSession();
-            }
-            Transaction tx = session.beginTransaction();
-            Criteria criteria = session
-                    .createCriteria(Libro.class)
-                    .setProjection(Projections.max("idLibro"));
-            return (Integer) criteria.uniqueResult() + 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return null;
-    }
 }

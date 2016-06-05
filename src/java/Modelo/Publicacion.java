@@ -1,5 +1,5 @@
 package Modelo;
-// Generated 11/05/2016 04:32:45 PM by Hibernate Tools 4.3.1
+// Generated 4/06/2016 10:51:19 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -27,8 +27,18 @@ public class Publicacion  implements java.io.Serializable {
 
 
      private int idPublicacion;
-     private Libro libro;
-     private Usuario usuario;
+     private Usuario usuarioByIdDueno;
+     private Usuario usuarioByElegido;
+     private String resena;
+     private String titulo;
+     private String autor;
+     private String edicion;
+     private String isbn;
+     private Integer anio;
+     private Integer evaluacionDelContenido;
+     private String foto;
+     private String editorial;
+     private Integer evaluacionDeRedaccion;
      private boolean finalizado;
      private Date fecha;
      private String lugarDeIntercambio;
@@ -38,15 +48,27 @@ public class Publicacion  implements java.io.Serializable {
     }
 
 	
-    public Publicacion(int idPublicacion, boolean finalizado, Date fecha) {
+    public Publicacion(int idPublicacion, String titulo, String autor, boolean finalizado, Date fecha) {
         this.idPublicacion = idPublicacion;
+        this.titulo = titulo;
+        this.autor = autor;
         this.finalizado = finalizado;
         this.fecha = fecha;
     }
-    public Publicacion(int idPublicacion, Libro libro, Usuario usuario, boolean finalizado, Date fecha, String lugarDeIntercambio, Set esCandidatos) {
+    public Publicacion(int idPublicacion, Usuario usuarioByIdDueno, Usuario usuarioByElegido, String resena, String titulo, String autor, String edicion, String isbn, Integer anio, Integer evaluacionDelContenido, String foto, String editorial, Integer evaluacionDeRedaccion, boolean finalizado, Date fecha, String lugarDeIntercambio, Set esCandidatos) {
        this.idPublicacion = idPublicacion;
-       this.libro = libro;
-       this.usuario = usuario;
+       this.usuarioByIdDueno = usuarioByIdDueno;
+       this.usuarioByElegido = usuarioByElegido;
+       this.resena = resena;
+       this.titulo = titulo;
+       this.autor = autor;
+       this.edicion = edicion;
+       this.isbn = isbn;
+       this.anio = anio;
+       this.evaluacionDelContenido = evaluacionDelContenido;
+       this.foto = foto;
+       this.editorial = editorial;
+       this.evaluacionDeRedaccion = evaluacionDeRedaccion;
        this.finalizado = finalizado;
        this.fecha = fecha;
        this.lugarDeIntercambio = lugarDeIntercambio;
@@ -66,23 +88,123 @@ public class Publicacion  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_libro")
-    public Libro getLibro() {
-        return this.libro;
+    @JoinColumn(name="id_dueno")
+    public Usuario getUsuarioByIdDueno() {
+        return this.usuarioByIdDueno;
     }
     
-    public void setLibro(Libro libro) {
-        this.libro = libro;
+    public void setUsuarioByIdDueno(Usuario usuarioByIdDueno) {
+        this.usuarioByIdDueno = usuarioByIdDueno;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="elegido")
-    public Usuario getUsuario() {
-        return this.usuario;
+    public Usuario getUsuarioByElegido() {
+        return this.usuarioByElegido;
     }
     
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioByElegido(Usuario usuarioByElegido) {
+        this.usuarioByElegido = usuarioByElegido;
+    }
+
+    
+    @Column(name="resena")
+    public String getResena() {
+        return this.resena;
+    }
+    
+    public void setResena(String resena) {
+        this.resena = resena;
+    }
+
+    
+    @Column(name="titulo", nullable=false)
+    public String getTitulo() {
+        return this.titulo;
+    }
+    
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    
+    @Column(name="autor", nullable=false)
+    public String getAutor() {
+        return this.autor;
+    }
+    
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    
+    @Column(name="edicion")
+    public String getEdicion() {
+        return this.edicion;
+    }
+    
+    public void setEdicion(String edicion) {
+        this.edicion = edicion;
+    }
+
+    
+    @Column(name="isbn")
+    public String getIsbn() {
+        return this.isbn;
+    }
+    
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    
+    @Column(name="anio")
+    public Integer getAnio() {
+        return this.anio;
+    }
+    
+    public void setAnio(Integer anio) {
+        this.anio = anio;
+    }
+
+    
+    @Column(name="evaluacion_del_contenido")
+    public Integer getEvaluacionDelContenido() {
+        return this.evaluacionDelContenido;
+    }
+    
+    public void setEvaluacionDelContenido(Integer evaluacionDelContenido) {
+        this.evaluacionDelContenido = evaluacionDelContenido;
+    }
+
+    
+    @Column(name="foto")
+    public String getFoto() {
+        return this.foto;
+    }
+    
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    
+    @Column(name="editorial")
+    public String getEditorial() {
+        return this.editorial;
+    }
+    
+    public void setEditorial(String editorial) {
+        this.editorial = editorial;
+    }
+
+    
+    @Column(name="evaluacion_de_redaccion")
+    public Integer getEvaluacionDeRedaccion() {
+        return this.evaluacionDeRedaccion;
+    }
+    
+    public void setEvaluacionDeRedaccion(Integer evaluacionDeRedaccion) {
+        this.evaluacionDeRedaccion = evaluacionDeRedaccion;
     }
 
     

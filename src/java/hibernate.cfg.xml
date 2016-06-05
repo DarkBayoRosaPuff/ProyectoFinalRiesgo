@@ -2,16 +2,17 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>  
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/proyectoFinal</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/prestamo</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">12345</property>
     <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.enable_lazy_load_no_trans">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <mapping resource="xml/Libro.hbm.xml"/>
-    <mapping resource="xml/Publicacion.hbm.xml"/>
-    <mapping resource="xml/EsCandidato.hbm.xml"/>
-    <mapping resource="xml/Usuario.hbm.xml"/>
+    <mapping resource="Modelo/Usuario.hbm.xml"/>
+    <mapping resource="Modelo/Publicacion.hbm.xml"/>
+    <mapping resource="Modelo/EsCandidato.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

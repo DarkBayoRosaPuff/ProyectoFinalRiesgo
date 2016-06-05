@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Bean;
 
 import java.security.MessageDigest;
@@ -12,15 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import Logic.UsuarioC;
 import Modelo.Usuario;
-import javax.inject.Named;
 
 /**
  *
- * @author DarkBayoRosaPuff
+ * @author jorge
  */
 @ManagedBean
 @RequestScoped
-@Named(value = "usuarioBean")
 public class UsuarioBean {
 
     private Usuario usuario = new Usuario();    //Representa al usuario actual
@@ -53,12 +56,12 @@ public class UsuarioBean {
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Correo Invalido o ya existente ", null);
             faceContext.addMessage(null, message);
-            return "RegistroIH";
+            return "RegistrarIH";
         } catch (Exception e) { //Excepcion general (Acotar excepciones especificas, para saber si correo repetido o demas)
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
             faceContext.addMessage(null, message);
-            return "RegistroIH";
+            return "RegistrarIH";
         }
         return "index"; //Se registro correctamente el usuario
     }
@@ -76,7 +79,7 @@ public class UsuarioBean {
         } catch (NoSuchAlgorithmException ex) { //Excepcion de hasheo
             System.out.println("|-| Algo raro paso con el algoritmo de cifrado");
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-            return "RegistroIH";
+            return "RegistrarIH";
         }
         return sb.toString();
     }
@@ -117,9 +120,10 @@ public class UsuarioBean {
     public String cerrarSesion() {
 	FacesContext.getCurrentInstance().getExternalContext().invalidateSession(); 
         httpServletRequest.getSession().removeAttribute("sessionUsuario");
-        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sesion cerrada correctamente", null);
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Session cerrada correctamente", null);
         faceContext.addMessage(null, message);
-   	return "index";
+        System.out.println("|-| Sesion cerrada correctamente");
+	return "index";
     }
 
     public String editarDatos() {
@@ -142,7 +146,7 @@ public class UsuarioBean {
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
             faceContext.addMessage(null, message);
-            return "RegistroIH";
+            return "index";
         }
         return "PerfilIH";
     }
@@ -152,8 +156,7 @@ public class UsuarioBean {
             return false;
         else
             return true;
-    }
-    
+    }    
     public Usuario getUsuario() {
         return usuario;
     }

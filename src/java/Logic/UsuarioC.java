@@ -5,14 +5,10 @@
  */
 package Logic;
 
-import Modelo.Publicacion;
 import Modelo.Usuario;
-import java.util.List;
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -22,20 +18,17 @@ public class UsuarioC {
 
     private Session session;
 
+    /**
+     * Constructor por omision
+     */
+    public UsuarioC() {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+    }    
+    
     public void registrarBD(Usuario usuario) {
-        try {
-
-            if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().getCurrentSession();
-            }
-            Transaction tx = session.beginTransaction();
-            session.save(usuario);
-            tx.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
+        Transaction tx = session.beginTransaction();
+        session.save(usuario);
+        tx.commit();
     }
 
     public Session getSession() {
@@ -46,7 +39,7 @@ public class UsuarioC {
         Usuario resultado = null;
         try {
             if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().openSession();
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
             }
             Transaction tx = session.beginTransaction();
             Query q = session.getNamedQuery("BuscarPorCorreo").setString("correo", usuario.getCorreo());
@@ -91,23 +84,6 @@ public class UsuarioC {
         } finally {
             session.close();
         }
-    }
-
-    public List<Publicacion> listarPublicaciones() {
-        List<Publicacion> lstPublicaciones = null;
-        /* La lista por regresar */
-        try {
-            if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().getCurrentSession();
-            }
-            Transaction tx = session.beginTransaction();
-            Criteria cri = session.createCriteria(Publicacion.class)
-                     .add(Restrictions.eq("age", new Integer(0)));
-            lstPublicaciones = cri.list();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return lstPublicaciones;
     }
 
 }

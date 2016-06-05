@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Perfil</title>
         <meta charset="utf-8"/>
@@ -29,42 +30,52 @@
                     </div>
                 </div>
             </div> 
-            <nav class="clearfix">
-                <ul class="clearfix">
-                    <h:form>      
-                        <li><a href="#">Tu nombre:</a></li>
-                        <li><a href="#" class="active"><p:outputLabel style="font-weight:bold;" value="#{usuarioBean.usuario.nombre}"/></a></li>
-                        <li><a href="#">Tu Correo:</a></li>
-                        <li><a href="#"><p:outputLabel style="font-weight:bold;" value="#{usuarioBean.usuario.correo}"/></a></li>
-                        <li><h:commandButton value="Editar perfil" action="EditarPerfilIH" styleClass="button solid-color"/></li>
-                        <li><h:commandButton value="Publicar" action="PublicarIH" styleClass="button solid-color"/></li> 
-                        <li><h:commandButton value="Publicaciones" action="Publicaciones" styleClass="button solid-color"/></li> 
-                        <li><h:commandButton value="Cerrar Sesion" action="#{usuarioBean.cerrarSesion()}" styleClass="button solid-color" /></li>
-                    </h:form>
-                </ul>
-            </nav>
-            <div class="pullcontainer">
-                <a href="#" id="pull"><i class="fa fa-bars fa-2x"></i></a>
-            </div>     
-        </header>   
-        <p:messages id="messages" showDetail="false" autoUpdate="true" styleClass="standard-block" />
-        <div class="container carousel"/>
-        <div class="row"/>
 
-        <div class="h2-wrap">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 class="standard-block">Últimas Publicaciones</h2>
-                    </div>
+            <c:if test="#{usuarioBean.verificarSesion() eq false}">
+                <div align="center"><h2>Acceso Denegado Inicia Sesion para entrar a tu perfil</h2></div>
+            </c:if>
+
+            <c:if test="#{usuarioBean.verificarSesion()}">
+                  <nav class="clearfix">
+                    <ul class="clearfix">
+                        <h:form>      
+                            <li><a href="#">Tu nombre:</a></li>
+                            <li><a href="#" class="active"><p:outputLabel style="font-weight:bold;" value="#{usuarioBean.usuario.nombre}"/></a></li>
+                            <li><a href="#">Tu Correo:</a></li>
+                            <li><a href="#"><p:outputLabel style="font-weight:bold;" value="#{usuarioBean.usuario.correo}"/></a></li>
+                            <li><h:commandButton value="Editar perfil" action="EditarPerfilIH" styleClass="button solid-color"/></li>
+                            <li><h:commandButton value="Publicar" action="PublicarIH" styleClass="button solid-color"/></li> 
+                            <li><h:commandButton value="Cerrar Sesion" action="#{usuarioBean.cerrarSesion()}" styleClass="button solid-color" /></li>
+                        </h:form>
+                    </ul>
+                </nav>
+                <div class="pullcontainer">
+                    <a href="#" id="pull"><i class="fa fa-bars fa-2x"></i></a>
                 </div>
-            </div>
-        </div>
-        <br/>
-        <!-- Aquí mostraremos las publicaciones, pero aún no lo haré porque no 
-        sé exactamente qué debo mostrar -->
+            </c:if>      
+        </header>
+        <c:if test="#{usuarioBean.verificarSesion()}">
+            <p:messages id="messages" showDetail="false" autoUpdate="true" styleClass="standard-block" />
+            <div class="container carousel"/>
+            <div class="row"/>
 
-        <!-- Fin de mostrar publicaciones -->
+
+            <div align="center">
+                <h:form>                    
+                    <p:inputText style="font-size:30px" value="#{consultarBean.clave}"/> &nbsp;
+                    <p:commandButton style="font-size:20px;" ajax="false" class="button" value="Buscar en Publicaciones" action="#{consultarBean.buscar()}"></p:commandButton>                   
+                </h:form>
+            </div>		
+            <br/>
+
+
+            <div align="center">
+                <h:form>                    
+                    <p:commandButton style="font-size:20px;" ajax="false" class="button" value="Tus Publicaciones" action="PublicacionesIH"></p:commandButton>                   
+                </h:form>
+            </div>		
+            <br/>
+        </c:if>         
         <div class="container carousel"/>
         <div class="row"/>
 

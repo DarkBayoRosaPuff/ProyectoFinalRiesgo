@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 4/06/2016 10:51:20 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.Usuario" table="usuario" schema="public" optimistic-lock="version">
+        <comment>Relacion usuario guarda los datos de un usuario registrado en el sitio</comment>
+        <id name="idUsuario" type="int">
+            <column name="id_usuario" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" not-null="true" />
+        </property>
+        <property name="contrasena" type="string">
+            <column name="contrasena" not-null="true" />
+        </property>
+        <property name="correo" type="string">
+            <column name="correo" not-null="true" unique="true" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="15" />
+        </property>
+        <set name="publicacionsForIdDueno" table="publicacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_dueno" />
+            </key>
+            <one-to-many class="Modelo.Publicacion" />
+        </set>
+        <set name="publicacionsForElegido" table="publicacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="elegido" />
+            </key>
+            <one-to-many class="Modelo.Publicacion" />
+        </set>
+        <set name="esCandidatos" table="es_candidato" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_candidato" />
+            </key>
+            <one-to-many class="Modelo.EsCandidato" />
+        </set>
+    </class>
+        <sql-query name="BuscarPorCorreo">
+        <return alias="Usuario" class="Modelo.Usuario"/>
+	<![CDATA[select * from usuario where usuario.correo = :correo]]>
+    </sql-query>
+</hibernate-mapping>

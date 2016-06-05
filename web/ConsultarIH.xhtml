@@ -4,9 +4,16 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:m="http://code.google.com/p/gmaps4jsf/">
     <h:head>
-        <title>Editar Perfil</title>
+        <script 
+            src="http://maps.google.com/maps?file=api&amp;v=2&amp;"
+            key="gen_website_key"
+            type="text/javascript">
+        </script>         
+        <title>Consultar</title>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>  
@@ -19,22 +26,25 @@
         <link href='http://fonts.googleapis.com/css?family=Sintony:400,700' rel='stylesheet' type='text/css'/>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'/>
     </h:head>
+
     <h:body>
+
         <header class="clearfix">    
             <div class="h2-wrap">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h2 class="standard-block" align="center">Formulario de Edición</h2>
+                            <h2 class="standard-block" align="center">Resultados</h2>
                         </div>
                     </div>
                 </div>
-            </div>
-            <c:if test="#{usuarioBean.verificarSesion() eq false}">
-                <div align="center"><h2>Acceso Denegado Inicia Sesion para editar tu perfil</h2></div>
-            </c:if>
+            </div> 
+            <c:if test="#{usuarioBean.verificarSesion()eq false}">
+                <div align="center"><h2>Acceso Denegado Inicia Sesion para buscar un libro</h2></div>
+            </c:if>    
 
             <c:if test="#{usuarioBean.verificarSesion()}">
+                <p:messages id="messages" showDetail="false" autoUpdate="true" styleClass="standard-block" />
                 <nav class="clearfix">
                     <ul class="clearfix">            
                         <div align="center"> 
@@ -44,35 +54,52 @@
                             </h:form>    
                         </div>
                     </ul>
-                </nav>    
-            </c:if>      
+                </nav>             
+            </c:if>
         </header>
+
         <c:if test="#{usuarioBean.verificarSesion()}">
-            <p:messages id="messages" showDetail="false" autoUpdate="true" styleClass="standard-block" />
-            <div align="center">   
-                <h:form>
-                    <span class="byline">
-                        <h:panelGrid columns="1">
-                            <h3 align="center">Nuevo usuario:</h3>
-                            <p:inputText pt:placeholder="Usuario" value="#{usuarioBean.usuario.nombre}"/>
-                            <h3 align="center">Nuevo Teléfono:</h3>
-                            <p:inputText pt:placeholder="Usuario" value="#{usuarioBean.usuario.telefono}"/>                        
-                            <h3 align="center">Nueva Contraseña:</h3>
-                            <p:password id="pwd1" value="#{usuarioBean.usuario.contrasena}" match="pwd2" label="Contraseña" required="true"
-                                        placeholder="Contraseña"/>
-                            <h3 align="center">Confirmación de contraseña:</h3>
-                            <p:password id="pwd2" value="#{usuarioBean.usuario.contrasena}" label="Confirmacion" required="true"
-                                        placeholder="Confirmacion"/>
-                            <h:commandButton value="Actualizar" action="#{usuarioBean.editarDatos()}" styleClass="button solid-color" />	 
-                        </h:panelGrid>
-                    </span>
-                </h:form>             
-            </div>    
+            <div align="center">
+                <h:form>                    
+                    <hr/>
+                    <p:inputText style="font-size:30px" value="#{consultarBean.clave}"/> &nbsp;
+                    <p:commandButton style="font-size:20px" ajax="false" class="button" value="Buscar en Publicaciones" action="#{consultarBean.buscar()}"></p:commandButton>
+                    <hr/>                   
 
-        </c:if>
+                    <div>
+                        <div>
 
-        <div class="container carousel"/>
-        <div class="row"/>
+                            <br/>
+                            <h2><h:outputLabel value="No se obtuvo ningun resultado :(" rendered="#{empty consultarBean.resultados}"/></h2>
+
+
+                            <c:forEach items="#{consultarBean.resultados}" var="resultado" rendered="#{consultarBean.resultados}">
+                                <section> 
+                                    <h2>Fecha de la publicación:</h2> <h2 style="color: #28a4c9">#{resultado.fecha}</h2>
+                                    <h2>Publicado por:</h2> <h2 style="color: #28a4c9">#{resultado.usuarioByIdDueno.nombre}</h2>                                                            
+                                    <h2>Libro: </h2> <h2 style="color: #28a4c9">#{resultado.titulo}</h2>
+                                    <h2>Autor: </h2> <h2 style="color: #28a4c9">#{resultado.autor}</h2>
+                                    <h2>Editorial: </h2> <h2 style="color: #28a4c9">#{resultado.editorial}</h2>
+                                    <h2>Edicion: </h2> <h2 style="color: #28a4c9">#{resultado.edicion}</h2>
+                                    <h2>ISBN: </h2> <h2 style="color: #28a4c9">#{resultado.isbn}</h2>
+                                    <h2>Ubicación del libro: </h2> <h2 style="color: #28a4c9">#{resultado.lugarDeIntercambio}</h2>                                                                 
+                                    <f:view>
+                                        <m:map width="600px" height="600px" zoom="100"  address="#{resultado.lugarDeIntercambio}+México" type="G_NORMAL_MAP">
+                                            <m:mapControl name="GLargeMapControl" position="G_ANCHOR_BOTTOM_RIGHT"/>
+                                            <m:marker address="#{resultado.lugarDeIntercambio}+México"/>
+                                        </m:map>
+                                    </f:view>  
+                                    <hr/>
+                                    <h:graphicImage value="/imagenes/#{resultado.idPublicacion}.jpeg" height="200" width="300"/>
+                                    <hr/>
+                                    <hr style="color: #43BFC7"/>
+                                </section>                         
+                            </c:forEach>
+                        </div>
+                    </div>
+                </h:form>
+            </div>	        
+        </c:if>    
 
         <div class="container carousel"/>
         <div class="row"/>
@@ -163,5 +190,5 @@
         <script src="js/unslider.min.js"></script>        
 
     </h:body>
-</html>
 
+</html>

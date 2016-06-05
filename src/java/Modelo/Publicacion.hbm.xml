@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 4/06/2016 10:51:20 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Modelo.Publicacion" table="publicacion" schema="public" optimistic-lock="version">
+        <id name="idPublicacion" type="int">
+            <column name="id_publicacion" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="usuarioByIdDueno" class="Modelo.Usuario" fetch="select">
+            <column name="id_dueno" />
+        </many-to-one>
+        <many-to-one name="usuarioByElegido" class="Modelo.Usuario" fetch="select">
+            <column name="elegido" />
+        </many-to-one>
+        <property name="resena" type="string">
+            <column name="resena" />
+        </property>
+        <property name="titulo" type="string">
+            <column name="titulo" not-null="true" />
+        </property>
+        <property name="autor" type="string">
+            <column name="autor" not-null="true" />
+        </property>
+        <property name="edicion" type="string">
+            <column name="edicion" />
+        </property>
+        <property name="isbn" type="string">
+            <column name="isbn" />
+        </property>
+        <property name="anio" type="java.lang.Integer">
+            <column name="anio" />
+        </property>
+        <property name="evaluacionDelContenido" type="java.lang.Integer">
+            <column name="evaluacion_del_contenido" />
+        </property>
+        <property name="foto" type="string">
+            <column name="foto" />
+        </property>
+        <property name="editorial" type="string">
+            <column name="editorial" />
+        </property>
+        <property name="evaluacionDeRedaccion" type="java.lang.Integer">
+            <column name="evaluacion_de_redaccion" />
+        </property>
+        <property name="finalizado" type="boolean">
+            <column name="finalizado" not-null="true" />
+        </property>
+        <property name="fecha" type="date">
+            <column name="fecha" length="13" not-null="true" />
+        </property>
+        <property name="lugarDeIntercambio" type="string">
+            <column name="lugar_de_intercambio" />
+        </property>
+        <set name="esCandidatos" table="es_candidato" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_publicacion" />
+            </key>
+            <one-to-many class="Modelo.EsCandidato" />
+        </set>
+    </class>
+    <sql-query name="BuscarPublicacion">
+        <return alias="Publicacion" class="Modelo.Publicacion"/>
+	<![CDATA[select * from publicacion where publicacion.idpublicacion = :id]]>
+    </sql-query> 
+</hibernate-mapping>
