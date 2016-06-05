@@ -50,7 +50,6 @@ public class PublicacionBean {
         try {
             helper.registrarBD(publicacion, usuario);
             int identificador = publicacion.getIdPublicacion(); 
-            upload(identificador);
             publicacion.setFecha(new Date());
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Publicacion realizada con éxito", null);
             faceContext.addMessage(null, message);
@@ -58,11 +57,6 @@ public class PublicacionBean {
         } catch (org.hibernate.TransientPropertyValueException ex) {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio un error al publicar", null);
             faceContext.addMessage(null, message);
-            return "PublicarIH";
-        }catch (IOException ex) {
-            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio un error al guardar la imagen", null);
-            faceContext.addMessage(null, message);
-            Logger.getLogger(PublicacionBean.class.getName()).log(Level.SEVERE, null, ex);
             return "PublicarIH";
         }
 

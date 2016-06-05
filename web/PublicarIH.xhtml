@@ -62,26 +62,26 @@
                             <p:inputText pt:placeholder="Autor" value="#{publicacionBean.publicacion.autor}" label="Autor" required="true"/>
 
                             <h3 align="center">Editorial:</h3>
-                            <p:inputText pt:placeholder="Editorial" value="#{publicacionBean.publicacion.editorial}" label="Editorial" required="true"/>
+                            <p:inputText pt:placeholder="Editorial" value="#{publicacionBean.publicacion.editorial}" label="Editorial"/>
 
                             <h3 align="center">Edición:</h3>
-                            <p:inputText pt:placeholder="Edición" value="#{publicacionBean.publicacion.edicion}" label="Confirmacion" required="true"/>
+                            <p:inputText pt:placeholder="Edición" value="#{publicacionBean.publicacion.edicion}" label="Edición"/>
 
                             <h3 align="center">Año:</h3>
-                            <p:inputText pt:placeholder="Año" value="#{publicacionBean.publicacion.anio}" label="Año" required="true"/>                        
+                            <p:inputText pt:placeholder="Año" value="#{publicacionBean.publicacion.anio}" label="Año"/>                        
 
                             <h3 align="center">ISBN:</h3>
-                            <p:inputText pt:placeholder="ISBN" value="#{publicacionBean.publicacion.isbn}" label="ISBN" required="true"/>                                    
+                            <p:inputText pt:placeholder="ISBN" value="#{publicacionBean.publicacion.isbn}" label="ISBN"/>                                    
 
                             <h3 align="center">Reseña:</h3>
-                            <p:inputText pt:placeholder="Reseña" value="#{publicacionBean.publicacion.resena}" label="Reseña" required="true"/>                         
+                            <p:inputText pt:placeholder="Reseña" value="#{publicacionBean.publicacion.resena}" label="Reseña"/>                         
 
                             <h3 align="center">Foto:</h3>
-                            <h:inputFile style="font-size:20px; background-color:Chocolate" value="#{publicacionBean.imagen}" required="true"
+                            <h:inputFile style="font-size:20px; background-color:Chocolate" value="#{publicacionBean.imagen}"
                                          label="Imagen de la publicacion"/>
 
                             <h3 align="center">Lugar de intercambio:</h3>
-                            <p:inputText pt:placeholder="Lugar de intercambio" value="#{publicacionBean.publicacion.lugarDeIntercambio}" label="lugarDeIntercambio" required="true"/> 
+                            <p:inputText pt:placeholder="Lugar de intercambio" value="#{publicacionBean.publicacion.lugarDeIntercambio}" label="lugarDeIntercambio"/> 
 
                             <h:commandButton value="Publicar" action="#{publicacionBean.registrarPublicacion()}" styleClass="button solid-color">
                             </h:commandButton>                        

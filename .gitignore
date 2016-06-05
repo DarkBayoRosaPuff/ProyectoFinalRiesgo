@@ -15,8 +15,8 @@ ac-comphist.dat
 /proyectoFinal/dist/
 /proyectoFinal/build/
 /nbproject/project.properties
-/nbproject/*
-build.xml
+./nbproject/*
+./build.xml
 /prestamodelibros/dist/
 /prestamodelibros/nbproject/private/
 /prestamodelibros/build/
