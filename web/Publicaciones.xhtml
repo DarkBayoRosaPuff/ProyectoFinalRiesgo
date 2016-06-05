@@ -19,18 +19,21 @@
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'/>
     </h:head>
     <h:body>
-        
-        <p:dataTable var="publicacion" value="#{publicacionesBean.lstPublicacion}" paginator="true">
-            <p:column headerText="Usuario">
-                <p:outputLabel value="#{publicacion.usuario.nombre}"/>
-            </p:column>
-            <p:column headerText="Libro">
-                <p:outputLabel value="#{publicacion.libro.titulo}"/>
-            </p:column>
-        </p:dataTable>
-        
-	<!-- Aquí acaba lo que agregué yo -->
-        
+        <h:form>
+            <p:dataTable var="publicacion" value="#{publicacionesBean.lstPublicacion}" paginator="true">
+                <p:column headerText="Libro">
+                    <p:commandLink action="#{publicacionesBean.redirige(publicacion)}"
+                                   ajax="false"
+                                   value="#{publicacion.libro.titulo}"/>
+                </p:column>
+                <p:column headerText="Autor">
+                    <p:outputLabel value="#{publicacion.libro.autor}"/>
+                </p:column>
+                <p:column headerText="Año">
+                    <p:outputLabel value="#{publicacion.libro.year}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
         <div class="container carousel"/>
         <div class="row"/>
 

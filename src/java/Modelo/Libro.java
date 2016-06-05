@@ -1,6 +1,7 @@
 package Modelo;
 // Generated 11/05/2016 04:32:45 PM by Hibernate Tools 4.3.1
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -191,6 +192,24 @@ public class Libro implements java.io.Serializable {
 
     public void setPublicacions(Set publicacions) {
         this.publicacions = publicacions;
+    }
+
+    /* Regresa la ruta absoluta a la foto del libro */
+    public String getRutaFoto() {
+        if (this.foto == null || this.foto.equals("")) {
+            return "img/book.png";
+        }
+        return System.getProperty("user.dir") + "/imagenes/" + this.foto;
+    }
+
+    /* Regresa el año de publicación del Libro */
+    public String getYear() {
+        /* Formato para convertir la fecha de lanzamiento en año */
+        DateFormat dateFormat = new SimpleDateFormat("yyyy");
+        if (this.anio != null && !this.anio.equals("")) {
+            return dateFormat.format(this.anio);
+        }
+        return "";
     }
 
 }

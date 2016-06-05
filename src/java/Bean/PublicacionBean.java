@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Bean;
 
 import javax.faces.application.FacesMessage;
@@ -28,7 +23,8 @@ public class PublicacionBean {
     private final FacesContext faceContext; // Obtiene información de la aplicación
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.
     private PublicacionC helper;
-    private Libro libro = new Libro(); /* El libro de la publicación */ 
+    private Libro libro = new Libro();
+    /* El libro de la publicación */
     private String anio;
 
     public PublicacionBean() {
@@ -40,7 +36,9 @@ public class PublicacionBean {
 
     public String registrarPublicacion() throws ParseException {
         try {
-            libro.setAnio(anio);
+            if (anio != null && !anio.equals("")) {
+                libro.setAnio(anio);
+            }
             publicacion.setUsuario(usuario);
             publicacion.setFecha(new Date());
             helper.registrarBD(publicacion, usuario, libro);

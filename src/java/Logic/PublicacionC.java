@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Logic;
 
 import org.hibernate.Query;
@@ -16,15 +11,10 @@ import Modelo.Libro;
 import java.util.List;
 import org.hibernate.Criteria;
 
-/**
- *
- * @author jorge
- */
 public class PublicacionC {
 
     private Session session;
     private Usuario usuario = new Usuario();
-    private List<Publicacion> lstPublicaciones;
 
     public void registrarBD(Publicacion publicacion, Usuario usu, Libro l) {
         try {
@@ -64,6 +54,8 @@ public class PublicacionC {
     }
 
     public List<Publicacion> listar() {
+        List<Publicacion> lstPublicaciones = null;
+        /* La lista por regresar */
         try {
             if (session == null || !session.isOpen()) {
                 session = HibernateUtil.getSessionFactory().getCurrentSession();
