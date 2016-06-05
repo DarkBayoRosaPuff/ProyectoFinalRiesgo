@@ -76,9 +76,11 @@
                             <h3 align="center">Reseña:</h3>
                             <p:inputText pt:placeholder="Reseña" value="#{publicacionBean.publicacion.resena}" label="Reseña"/>                         
 
-                            <h3 align="center">Foto:</h3>
-                            <h:inputFile style="font-size:20px; background-color:Chocolate" value="#{publicacionBean.imagen}"
-                                         label="Imagen de la publicacion"/>
+                            <h3 align="center">Imagen:</h3>
+                            <p:growl id="messages" showDetail="true" />
+                            <p:fileUpload value="#{publicacionBean.image}" mode="simple"/>
+                            <p:commandButton value="Subir foto" ajax="false"
+                                             actionListener="#{publicacionBean.guardaImagen()}"/>
 
                             <h3 align="center">Lugar de intercambio:</h3>
                             <p:inputText pt:placeholder="Lugar de intercambio" value="#{publicacionBean.publicacion.lugarDeIntercambio}" label="lugarDeIntercambio"/> 

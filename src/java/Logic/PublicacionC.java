@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Logic;
 
 import org.hibernate.Query;
@@ -14,10 +9,11 @@ import Modelo.Publicacion;
 import Modelo.Usuario;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 
 /**
  *
- * @author jorge
+ * @author DarkBayoRosaPuff
  */
 public class PublicacionC {
 
@@ -30,19 +26,32 @@ public class PublicacionC {
      */
     public PublicacionC() {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
-    } 
-    
+    }
+
     public void registrarBD(Publicacion publicacion, Usuario usu) {
+        /* Lo pongo por si se cierra la sesión en otro método */
+        try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
             Transaction tx = session.beginTransaction();
             java.util.Date fecha = new Date();
             publicacion.setUsuarioByIdDueno(usu);
             publicacion.setFecha(fecha);
             session.save(publicacion);
             tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
     }
 
     /**
      * Metodo que busca una publicacion en especifico dado su ID
+     *
      * @param id ID de la publicacion a buscar
      * @return Publicacion obtenida con el ID solicitado
      */
@@ -83,9 +92,10 @@ public class PublicacionC {
         }
 
     }
-    
+
     /**
      * Metodo que actualiza la informacion de la publicacion en la base de datos
+     *
      * @param publicacion Publicacion a modificar ne la base de datos
      */
     public void actualizarPublicacionBD(Publicacion publicacion) {
@@ -94,6 +104,27 @@ public class PublicacionC {
         session.update(publicacion);
         session.getTransaction().commit();
         session.close();
-    }    
+    }
+
+    /* Regresa el id de la siguiente Publicación que que registraremos */
+    public Integer getNextIdPublicacion() {
+        try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
+            Transaction tx = session.beginTransaction();
+            Criteria criteria = session
+                    .createCriteria(Publicacion.class)
+                    .setProjection(Projections.max("idPublicacion"));
+            return (Integer) criteria.uniqueResult() + 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
+        return null;
+    }
 
 }
