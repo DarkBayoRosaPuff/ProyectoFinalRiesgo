@@ -10,10 +10,10 @@ import org.hibernate.Transaction;
 import Modelo.Publicacion;
 import java.util.*;
 import Modelo.Usuario;
+import org.hibernate.type.StandardBasicTypes;
 
 /**
- * Controlador utilizado 
- * @author Alan
+ * Controlador utilizado
  */
 public class ConsultarC {
 
@@ -32,6 +32,7 @@ public class ConsultarC {
     /**
      * Método que obtiene las palabras de una cadena y crea unaexpresión regular
      * para buscar coincidencias con todas las palabras.
+     *
      * @param cadena Cadena a separar por palabras.
      * @return La consulta p
      */
@@ -55,7 +56,9 @@ public class ConsultarC {
     /**
      * Metodo que busca en las descripciones de las publicaciones, coincidencias
      * con la clave proporcionada
-     * @param clave Clava dada para buscar entre las descripciones de publicaciones
+     *
+     * @param clave Clava dada para buscar entre las descripciones de
+     * publicaciones
      * @return Lista de publicaciones con las que coincide la clave dada
      */
     public List<Publicacion> buscar(String clave) {
@@ -67,7 +70,7 @@ public class ConsultarC {
             Query q = session.createSQLQuery("select * from publicacion where "
                     + "LOWER(publicacion.titulo) ~ :clave  or LOWER(publicacion.autor) ~ :clave or LOWER(publicacion.editorial) ~ :clave or LOWER(publicacion.isbn) ~ :clave "
                     + "or LOWER(CAST(publicacion.evaluacion_de_redaccion AS text)) ~ :clave or LOWER(CAST(publicacion.evaluacion_del_contenido AS text)) ~ :clave or LOWER(publicacion.lugar_de_intercambio) ~ :clave ;").addEntity(Publicacion.class).setString("clave", clave);
-            
+
             resultados = (ArrayList<Publicacion>) q.list();
             //session.getTransaction().commit();
             session.close();
@@ -79,7 +82,9 @@ public class ConsultarC {
     }
 
     /**
-     * Metodo que busca y regresa a todos los usuarios en la tabla Usuario de la base de datos
+     * Metodo que busca y regresa a todos los usuarios en la tabla Usuario de la
+     * base de datos
+     *
      * @return Lista con todos los usuarios en la base de datos
      */
     public List<Usuario> buscarUsuarios() {
@@ -94,9 +99,11 @@ public class ConsultarC {
         }
         return resultadosUsuario;
     }
-    
+
     /**
-     * Metodo que busca y regresa a todas las publicaciones en la tabla Publicacion de la base de datos
+     * Metodo que busca y regresa a todas las publicaciones en la tabla
+     * Publicacion de la base de datos
+     *
      * @return Lista con todas las publicaciones en la base de datos
      */
     public List<Publicacion> buscarPublicaciones() {
@@ -111,19 +118,21 @@ public class ConsultarC {
         }
         return resultadosPublicaciones;
     }
-    
+
     /**
-     * Metodo que busca todas las publicaciones creadas por un usuario en especifico
-     * @param usu Usuario en especifico del que se quieren encontrar sus publicaciones
-     * (Posiblemente este metodo sea innecesario, dado que hibernate crea este conjunto en el modelo Usuario,
-     * aun falta confirmarlo)
+     * Metodo que busca todas las publicaciones creadas por un usuario en
+     * especifico
+     *
+     * @param usu Usuario en especifico del que se quieren encontrar sus
+     * publicaciones (Posiblemente este metodo sea innecesario, dado que
+     * hibernate crea este conjunto en el modelo Usuario, aun falta confirmarlo)
      * @return Lista de publicaciones del usuario
      */
     public List<Publicacion> buscarPublicacionesUsuario(Usuario usu) {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
             Transaction tx = session.beginTransaction();
-            Query q = session.createSQLQuery("select * from publicacion where id_dueno = "+usu.getIdUsuario()).addEntity(Publicacion.class);
+            Query q = session.createSQLQuery("select * from publicacion where id_dueno = " + usu.getIdUsuario()).addEntity(Publicacion.class);
             resultadosPublicaciones = (ArrayList<Publicacion>) q.list();
             session.close();
         } catch (Exception e) {
@@ -131,11 +140,12 @@ public class ConsultarC {
         }
         return resultadosPublicaciones;
     }
-    
+
     /**
-     * Metodo que modifica el ID de prestatario asociado a la publicacion
-     * Para indicar que dicha publicacion ha sido solicitada por un usuario
-     * (Esto solo ocurre si no ha sido ya solicitada por otro usuario)
+     * Metodo que modifica el ID de prestatario asociado a la publicacion Para
+     * indicar que dicha publicacion ha sido solicitada por un usuario (Esto
+     * solo ocurre si no ha sido ya solicitada por otro usuario)
+     *
      * @param publicacion Publicacion a solicitar
      * @param usu Usuario que solicita la publicacion (prestatario)
      */
@@ -152,10 +162,29 @@ public class ConsultarC {
     public ArrayList<Publicacion> getResultados() {
         return this.resultados;
     }
-    
+
     // Recomendable quitar este metodo, pues no es congruente con el esquema que llevan los demas controladores
     public void setResultados(ArrayList<Publicacion> r) {
         this.resultados = r;
+    }
+
+    /* Lista las Publicaciones del usuario */
+    public List<Publicacion> listaPublicaciones(Usuario u) {
+        try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
+            Transaction tx = session.beginTransaction();
+            Query q = session.createSQLQuery("select * from publicacion where "
+                    + "id_usuario = " + u.getIdUsuario()).addEntity(Publicacion.class);
+            /* La lista de publicaciones */
+            List<Publicacion> lista = q.list();
+            tx.commit();
+            return lista;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -4,7 +4,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.Date;
-
 import Modelo.Publicacion;
 import Modelo.Usuario;
 import java.util.List;
@@ -58,6 +57,9 @@ public class PublicacionC {
     public Publicacion buscarPublicacion(Integer id) {
         Publicacion resultado;
         try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
             Transaction tx = session.beginTransaction();
             Query q = session.getNamedQuery("BuscarPublicacion").setInteger("id", id);
             resultado = (Publicacion) q.uniqueResult();
@@ -71,6 +73,9 @@ public class PublicacionC {
 
     public List<Publicacion> listar() {
         try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
             Transaction tx = session.beginTransaction();
             Criteria cri = session.createCriteria(Publicacion.class);
             lstPublicaciones = cri.list();
@@ -83,6 +88,9 @@ public class PublicacionC {
     public Usuario getUsuario(int id) {
         Usuario l = null;
         try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
             l = (Usuario) session.get(Usuario.class, id);
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,6 +133,24 @@ public class PublicacionC {
             }
         }
         return null;
+    }
+
+    /* Regresa la publicación con el id dado */
+    public Publicacion getPublicacion(Integer id) {
+        Publicacion p = null;
+        try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
+            Transaction tx = session.beginTransaction();
+            p = (Publicacion) session.get(Publicacion.class, id);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return p;
+        }
+
     }
 
 }

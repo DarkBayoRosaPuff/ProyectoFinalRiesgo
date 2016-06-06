@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -33,7 +34,7 @@ import org.primefaces.model.UploadedFile;
 /* Imágenes no servía con @RequestScoped so adiós FacesMessage :v */
 @ViewScoped
 @Named(value = "publicacionBean")
-public class PublicacionBean {
+public class PublicacionBean implements Serializable {
 
     private Usuario usuario = new Usuario();
     private Publicacion publicacion = new Publicacion(); //la nueva publicacion

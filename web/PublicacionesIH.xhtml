@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:o="http://omnifaces.org/ui">
     <h:head>
         <title>Tus publicaciones</title>
         <meta charset="utf-8"/>
@@ -81,15 +82,15 @@
                             <h2>Editorial: </h2> <h2 style="color: #28a4c9">#{resultado.editorial}</h2>
                             <h2>Edicion: </h2> <h2 style="color: #28a4c9">#{resultado.edicion}</h2>
                             <h2>ISBN: </h2> <h2 style="color: #28a4c9">#{resultado.isbn}</h2>
-
+                            <o:graphicImage value="#{consultarBean.mostrarImagen(resultado.idPublicacion)}"
+                                            width="300" />
+                            <hr style="color: #43BFC7"/>
                             <a style="color: #080808"
                                href="https://www.google.com.mx/maps/place/#{resultado.lugarDeIntercambio}+México" target="_blank">
                                 <span style="color: #080808" class="">
                                     <h2>Ubicación del libro: </h2> <h2 style="color: #28a4c9">#{resultado.lugarDeIntercambio}</h2>
                                 </span>
                             </a>
-                            <h:graphicImage value="/imagenes/#{resultado.idPublicacion}.jpeg" height="200" width="300"/>
-                            <hr style="color: #43BFC7"/>
                         </section>
                     </c:forEach>    
                 </h:form>    

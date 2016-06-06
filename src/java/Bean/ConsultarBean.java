@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Bean;
-
 
 import java.util.*;
 import java.util.logging.Level;
@@ -20,16 +14,21 @@ import Logic.PublicacionC;
 import Logic.UsuarioC;
 import Modelo.Publicacion;
 import Modelo.Usuario;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.Serializable;
+import javax.enterprise.context.ApplicationScoped;
 import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
+
 /**
  * Bean que maneja las consultas, generalmente con metodos relacionados a
  * representar los elementos en la base de datos de una tabla en particular
  *
- * @author Alan
  */
 @ManagedBean
-@SessionScoped
-public class ConsultarBean {
+@ApplicationScoped
+public class ConsultarBean implements Serializable {
 
     private String clave;
     private ConsultarC termino;
@@ -42,6 +41,9 @@ public class ConsultarBean {
     private HttpServletRequest httpServletRequest; // Obtiene información de todas las peticiones de usuario.
     private FacesContext faceContext; // Obtiene información de la aplicación
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.  
+    /* Atributo usado para que OmniFaces actualice la imagen en lugar de 
+    guardarla en caché */
+    private Long lastModified = System.currentTimeMillis();
 
     public ConsultarBean() {
         termino = new ConsultarC();
@@ -81,7 +83,7 @@ public class ConsultarBean {
         this.resultadosUsuarios = (ArrayList<Usuario>) termino.buscarUsuarios();
         return resultadosUsuarios;
     }
-        
+
     /**
      * Metodo que busca el listado de publicaciones actuales para dar la opcion
      * de eliminarlas
@@ -103,6 +105,11 @@ public class ConsultarBean {
         update();
         this.resultadosPublicaciones = (ArrayList<Publicacion>) termino.buscarPublicacionesUsuario(usuario);
         return resultadosPublicaciones;
+    }
+
+    /* Lista las publicaciones del Usuario */
+    public List<Publicacion> listaPublicaciones() {
+        return termino.listaPublicaciones(this.usuario);
     }
 
     /**
@@ -129,8 +136,8 @@ public class ConsultarBean {
             faceContext.addMessage(null, message);
         }
         return "ConsultarIH";
-    }    
-    
+    }
+
     /**
      * Regresa un booleano que indica si la publicacion del parametro es ajena
      * al usuario actual
@@ -183,5 +190,24 @@ public class ConsultarBean {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-        
+
+    public Long getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Long lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    /* Regresa la imagen como FileInputStream para ser pasada a OmniFaces */
+    public InputStream mostrarImagen(Integer id) throws FileNotFoundException {
+        Publicacion p = helper.getPublicacion(id);
+        if (p != null) {
+            System.out.println("HI");
+            return new FileInputStream(p.getRutaFoto());
+        } else {
+            return null;
+        }
+    }
+
 }
