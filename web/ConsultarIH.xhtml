@@ -6,7 +6,9 @@
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:m="http://code.google.com/p/gmaps4jsf/">
+      xmlns:m="http://code.google.com/p/gmaps4jsf/"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:o="http://omnifaces.org/ui">
     <h:head>
         <script 
             src="http://maps.google.com/maps?file=api&amp;v=2&amp;"
@@ -90,10 +92,19 @@
                                         </m:map>
                                     </f:view>  
                                     <hr/>
-                                    <h:graphicImage value="/imagenes/#{resultado.idPublicacion}.jpeg" height="200" width="300"/>
+                                    <o:graphicImage value="#{consultarBean.mostrarImagen(resultado.idPublicacion)}"
+                                                    width="300" />
                                     <hr/>
                                     <hr style="color: #43BFC7"/>
                                 </section>                         
+                                <!-- Si es una publicacion ajena-->
+                                <c:if test ="#{consultarBean.esAjena(resultado)}">
+                                    <!-- Puedo pedirla prestada -->
+                                    <p:commandButton style="font-size:20px"
+                                                     class="button" value="Solicitar" 
+                                                     actionListener="#{consultarBean.pedir(resultado)}"/>
+                                </c:if>
+
                             </c:forEach>
                         </div>
                     </div>
