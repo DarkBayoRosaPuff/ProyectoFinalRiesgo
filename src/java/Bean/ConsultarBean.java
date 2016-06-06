@@ -203,11 +203,16 @@ public class ConsultarBean implements Serializable {
     public InputStream mostrarImagen(Integer id) throws FileNotFoundException {
         Publicacion p = helper.getPublicacion(id);
         if (p != null) {
-            System.out.println("HI");
             return new FileInputStream(p.getRutaFoto());
         } else {
             return null;
         }
+    }
+
+    /* Nos manda a la vista para editar la Publicacion p */
+    public String editaPublicacion(Publicacion p) {
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("publicacion", p);
+        return "EditarPublicacion";
     }
 
 }

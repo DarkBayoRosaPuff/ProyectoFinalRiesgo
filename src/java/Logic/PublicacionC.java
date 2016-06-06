@@ -150,7 +150,24 @@ public class PublicacionC {
         } finally {
             return p;
         }
+    }
 
+    /* Actualiza la Publicacion p en la base de datos */
+    public void actualizarPublicacion(Publicacion p) {
+        try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
+            Transaction tx = session.beginTransaction();
+            session.update(p);
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session.isOpen()) {
+                session.close();
+            }
+        }
     }
 
 }
