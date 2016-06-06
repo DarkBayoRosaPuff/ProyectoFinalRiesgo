@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Bean;
 
 import java.security.MessageDigest;
@@ -17,10 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import Logic.UsuarioC;
 import Modelo.Usuario;
+import correo.Correo;
+import org.apache.commons.mail.EmailException;
 
 /**
  *
- * @author jorge
+ * @author DarkBayoRosaPuff
  */
 @ManagedBean
 @RequestScoped
@@ -37,8 +34,9 @@ public class UsuarioBean {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
-        if (usuario == null)
+        if (usuario == null) {
             usuario = new Usuario();
+        }
         helper = new UsuarioC();
     }
 
@@ -94,14 +92,14 @@ public class UsuarioBean {
                 StringBuilder sb = new StringBuilder();
                 for (byte b : digest) {
                     sb.append(String.format("%02x", b & 0xff));
-                }               
+                }
                 if (sb.toString().equals(usuarioBD.getContrasena())) { //La contrasena introducida coincide con la encontrada en la base de datos
                     usuario = usuarioBD; // Guardamos los datos de la BD en la sesion para futuro uso
                     httpServletRequest.getSession().setAttribute("sessionUsuario", usuario); //Ponemos los datos de entrada en el servlet (sessionUsuario)
                     message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso Correcto", null);
                     faceContext.addMessage(null, message);
                     return "PerfilIH";
-                }else{ //Contrasena incorrecta
+                } else { //Contrasena incorrecta
                     message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "La contrasena introducida es incorrecta.", null);
                     faceContext.addMessage(null, message);
                     return "index";
@@ -110,20 +108,20 @@ public class UsuarioBean {
                 Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else { //El usuario no ha sido registrado
-            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"El correo: "+ usuario.getCorreo()+" no existe en la base de datos.", null);
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El correo: " + usuario.getCorreo() + " no existe en la base de datos.", null);
             faceContext.addMessage(null, message);
             return "index";
         }
         return "index";
-    }  
+    }
 
     public String cerrarSesion() {
-	FacesContext.getCurrentInstance().getExternalContext().invalidateSession(); 
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         httpServletRequest.getSession().removeAttribute("sessionUsuario");
         message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Session cerrada correctamente", null);
         faceContext.addMessage(null, message);
         System.out.println("|-| Sesion cerrada correctamente");
-	return "index";
+        return "index";
     }
 
     public String editarDatos() {
@@ -132,8 +130,7 @@ public class UsuarioBean {
         {
             usuarioActual.setNombre(usuario.getNombre());
         }
-        if(!usuario.getTelefono().equals(""))
-        {
+        if (!usuario.getTelefono().equals("")) {
             usuarioActual.setTelefono(usuario.getTelefono());
         }
         try {
@@ -150,19 +147,65 @@ public class UsuarioBean {
         }
         return "PerfilIH";
     }
-    
+
     public boolean verificarSesion() {
-        if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sessionUsuario") == null)
+        if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sessionUsuario") == null) {
             return false;
-        else
+        } else {
             return true;
-    }    
+        }
+    }
+
     public Usuario getUsuario() {
         return usuario;
     }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public String recuperar(String correo) {
+        if (helper.buscarPorCorreo(correo) != null) {
+            usuario = helper.buscarPorCorreo(correo);
+            String contrasena = nuevaContrasena();
+            usuario.setContrasena(contrasena);
+            String contrasenaCifrada = cifrarContrasena();
+            usuario.setContrasena(contrasenaCifrada);
+            helper.actualizarUsuarioBD(usuario);
+            Correo email = new Correo();
+            String asunto = "Recuperacion de contraseña";
+            String mensaje = "Que tal, " + usuario.getNombre() + "!\n\n"
+                    + "Tu nueva contraseña es:" + contrasena;
+            String destinatario = usuario.getCorreo();
+            try {
+                email.enviarCorreo(asunto, mensaje, destinatario);
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se le ha enviado un correo", null);
+                faceContext.addMessage(null, message);
+            } catch (EmailException ex) {
+                Logger.getLogger(ConsultarBean.class.getName()).log(Level.SEVERE, null, ex);
+                message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El correo no fue enviado, por falta de internet", null);
+                faceContext.addMessage(null, message);
+            }
+
+        } else { //El usuario no ha sido registrado
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El correo: " + usuario.getCorreo() + " no existe en la base de datos.", null);
+            faceContext.addMessage(null, message);
+            return "index";
+        }
+        return "index";
+    }
+
+    public String nuevaContrasena() {
+        String[] abc = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+        String contrasena = "";
+        int cont = 0;
+        while (cont <= 10) {
+            int numRandon = (int) Math.round(Math.random() * 10);
+            contrasena += abc[numRandon];
+            cont++;
+        }
+
+        return contrasena;
     }
 
 }
