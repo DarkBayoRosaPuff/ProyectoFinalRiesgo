@@ -3,10 +3,14 @@ package Modelo;
 
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -27,6 +31,14 @@ public class Usuario implements java.io.Serializable {
     private Set publicacionsForIdDueno = new HashSet(0);
     private Set publicacionsForElegido = new HashSet(0);
     private Set esCandidatos = new HashSet(0);
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "es_candidato",
+            joinColumns = {
+                @JoinColumn(name = "id_candidato")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "id_publicacion")})
+    private Set<Publicacion> publicacionesCandidatas = new HashSet<Publicacion>();
 
     public Usuario() {
     }
@@ -132,4 +144,14 @@ public class Usuario implements java.io.Serializable {
         return false;
     }
 
+    public Set<Publicacion> getPublicacionesCandidatas() {
+        return publicacionesCandidatas;
+    }
+
+    public void setPublicacionesCandidatas(Set<Publicacion> publicacionesCandidatas) {
+        this.publicacionesCandidatas = publicacionesCandidatas;
+    }
+
+    
+    
 }

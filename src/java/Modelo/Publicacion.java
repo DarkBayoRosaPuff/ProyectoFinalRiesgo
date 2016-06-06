@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -40,6 +41,9 @@ public class Publicacion implements java.io.Serializable {
     private Date fecha;
     private String lugarDeIntercambio;
     private Set esCandidatos = new HashSet(0);
+
+    @ManyToMany(mappedBy = "publicacionesCandidatas")
+    private Set<Usuario> candidatos = new HashSet<Usuario>();
 
     public Publicacion() {
     }
@@ -236,6 +240,14 @@ public class Publicacion implements java.io.Serializable {
             return "";
         }
         return System.getProperty("user.dir") + "/imagenes/" + this.foto;
+    }
+
+    public Set<Usuario> getCandidatos() {
+        return candidatos;
+    }
+
+    public void setCandidatos(Set<Usuario> candidatos) {
+        this.candidatos = candidatos;
     }
 
 }

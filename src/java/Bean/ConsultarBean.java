@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import Logic.ConsultarC;
+import Logic.EsCandidatoC;
 import Logic.PublicacionC;
 import Logic.UsuarioC;
 import Modelo.Publicacion;
@@ -19,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Serializable;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ViewScoped;
 import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
 
 /**
@@ -34,7 +36,7 @@ public class ConsultarBean implements Serializable {
     private ConsultarC termino;
     private PublicacionC helper;
     private UsuarioC helperUsuario;
-    private ArrayList<Publicacion> resultados;
+    private List<Publicacion> resultados;
     private ArrayList<Usuario> resultadosUsuarios;
     private ArrayList<Publicacion> resultadosPublicaciones;
     private Usuario usuario;
@@ -44,8 +46,10 @@ public class ConsultarBean implements Serializable {
     /* Atributo usado para que OmniFaces actualice la imagen en lugar de 
     guardarla en caché */
     private Long lastModified = System.currentTimeMillis();
+    private EsCandidatoC canHelper;
 
     public ConsultarBean() {
+        canHelper = new EsCandidatoC();
         termino = new ConsultarC();
         helper = new PublicacionC();
         helperUsuario = new UsuarioC();
@@ -64,11 +68,10 @@ public class ConsultarBean implements Serializable {
      * @return Una cadena que indica la vista donde se mostrarán los resultados.
      */
     public String buscar() {
-        this.resultados = new ArrayList<>();
         if (this.clave.length() <= 0) {
             return "ConsultarIH";
         }
-        this.resultados = (ArrayList<Publicacion>) termino.buscar(clave);
+        this.resultados = termino.buscar(clave);
         clave = ""; //Para resetear el campo de busqueda
         return "ConsultarIH";
     }
@@ -113,32 +116,6 @@ public class ConsultarBean implements Serializable {
     }
 
     /**
-     * Metodo que realiza la logica de pedir prestada una publicacion De acuerdo
-     * a la publicacion seleccionada, la actualiza en la base de datos para que
-     * el usuario actual se postule como candidato de dicha publicacion (Esto
-     * solo ocurre si no hay un candidato ya esperando respuesta)
-     *
-     * @param publicacionSolicitada La publicacion solicitada para pedir
-     * prestado el objeto
-     * @return Cadena que representa la vista a la cual redireccionar en la
-     * aplicacion
-     */
-    public String pedir(Publicacion publicacionSolicitada) {
-        update();
-        try {
-            publicacionSolicitada.setUsuarioByElegido(usuario);
-            helper.actualizarPublicacionBD(publicacionSolicitada);
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tu peticion de prestamo fue recibida correctamente", null);
-            faceContext.addMessage(null, message);
-        } catch (Exception e) { //Excepcion general (Acotar excepciones especificas, para saber si correo repetido o demas)
-            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
-            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
-            faceContext.addMessage(null, message);
-        }
-        return "ConsultarIH";
-    }
-
-    /**
      * Regresa un booleano que indica si la publicacion del parametro es ajena
      * al usuario actual
      *
@@ -178,7 +155,7 @@ public class ConsultarBean implements Serializable {
         return termino;
     }
 
-    public ArrayList<Publicacion> getResultados() {
+    public List<Publicacion> getResultados() {
         return this.resultados;
     }
 
@@ -213,6 +190,24 @@ public class ConsultarBean implements Serializable {
     public String editaPublicacion(Publicacion p) {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("publicacion", p);
         return "EditarPublicacion";
+    }
+
+    /* Solicita un intercambio de libros */
+    public String pedir(Publicacion publicacionSolicitada) {
+        try {
+            canHelper.registrarCandidato(usuario, publicacionSolicitada);
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tu peticion de prestamo fue recibida correctamente", null);
+            faceContext.addMessage(null, message);
+        } catch (Exception e) {
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
+            faceContext.addMessage(null, message);
+        }
+        return "index";
+    }
+
+    /* Lista las publicaciones */
+    public List<Publicacion> publicaciones() {
+        return helper.listar();
     }
 
 }

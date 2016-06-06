@@ -75,7 +75,6 @@ public class EsCandidato  implements java.io.Serializable {
 
 
 
-
 }
 
 
