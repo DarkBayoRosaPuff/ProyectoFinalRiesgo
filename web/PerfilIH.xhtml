@@ -36,7 +36,7 @@
             </c:if>
 
             <c:if test="#{usuarioBean.verificarSesion()}">
-                  <nav class="clearfix">
+                <nav class="clearfix">
                     <ul class="clearfix">
                         <h:form>      
                             <li><a href="#">Tu nombre:</a></li>
@@ -64,6 +64,13 @@
                 <h:form>                    
                     <p:inputText style="font-size:30px" value="#{consultarBean.clave}"/> &nbsp;
                     <p:commandButton style="font-size:20px;" ajax="false" class="button" value="Buscar en Publicaciones" action="#{consultarBean.buscar()}"></p:commandButton>                   
+                </h:form>
+            </div>		
+            <br/>
+
+            <div align="center">
+                <h:form>                    
+                    <p:commandButton style="font-size:20px;" ajax="false" class="button" value="Lista de Publicaciones" action="ListaDePublicaciones.xhtml"></p:commandButton>                   
                 </h:form>
             </div>		
             <br/>

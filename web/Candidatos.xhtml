@@ -9,7 +9,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:m="http://code.google.com/p/gmaps4jsf/">
     <h:head>
-        <title>Publicaciones</title>
+        <title>Candidatos</title>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>  
@@ -28,7 +28,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h2 class="standard-block" align="center">Publicaciones</h2>
+                            <h2 class="standard-block" align="center">Candidatos</h2>
                         </div>
                     </div>
                 </div>
@@ -64,28 +64,13 @@
 
             <div align="center">
                 <h:form>
-                    <c:forEach items="#{listaPublicacionesBean.publicaciones()}" var="resultado">
+                    <c:forEach items="#{candidatosBean.lista()}" var="candidato">
                         <section> 
-                            <h2>Fecha de la publicación:</h2> <h2 style="color: #28a4c9">#{resultado.fecha}</h2>
-                            <h2>Publicado por:</h2> <h2 style="color: #28a4c9">#{resultado.usuarioByIdDueno.nombre}</h2>                                                            
-                            <h2>Libro: </h2> <h2 style="color: #28a4c9">#{resultado.titulo}</h2>
-                            <h2>Autor: </h2> <h2 style="color: #28a4c9">#{resultado.autor}</h2>
-                            <h2>Editorial: </h2> <h2 style="color: #28a4c9">#{resultado.editorial}</h2>
-                            <h2>Edicion: </h2> <h2 style="color: #28a4c9">#{resultado.edicion}</h2>
-                            <h2>ISBN: </h2> <h2 style="color: #28a4c9">#{resultado.isbn}</h2>
-                            <!-- Por ahora comentaré lo que no se ve bien -->
-                           <!--  <o:graphicImage value="#{listaPublicacionesBean.mostrarImagen(resultado.idPublicacion)}"
-                                             width="300" />
-                             <hr style="color: #43BFC7"/>
-                             <f:view>
-                                 <m:map width="600px" height="600px" zoom="100"  address="#{resultado.lugarDeIntercambio}" type="G_NORMAL_MAP">
-                                     <m:mapControl name="GLargeMapControl" position="G_ANCHOR_BOTTOM_RIGHT"/>
-                                     <m:marker address="#{resultado.lugarDeIntercambio}"/>
-                                 </m:map>
-                             </f:view>  
-                             <hr/>-->
-                            <h:commandLink value="Solicitar" action="#{listaPublicacionesBean.pedir(resultado)}"
-                                           disabled = "#{not consultarBean.esAjena(resultado)}"/>        
+                            <span class="byline">
+                                <h2>Usuario:</h2> <h2 style="color: #28a4c9">#{candidato.nombre}</h2>
+                                <h2>Teléfono:</h2> <h2 style="color: #28a4c9">#{candidato.telefono}</h2>                                                            
+                                <h2>Correo: </h2> <h2 style="color: #28a4c9">#{candidato.correo}</h2>
+                            </span>
                         </section>
                     </c:forEach>    
                 </h:form>    
@@ -181,5 +166,6 @@
 
     </h:body>
 </html>
+
 
 

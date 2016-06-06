@@ -210,4 +210,10 @@ public class ConsultarBean implements Serializable {
         return helper.listar();
     }
 
+    /* Redirecciona a la lista de candidatos de la Publicación */
+    public String redireccionaCandidatos(Publicacion p) {
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("publicacion", p);
+        return "Candidatos";
+    }
+
 }

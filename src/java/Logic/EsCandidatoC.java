@@ -6,6 +6,7 @@ import Modelo.EsCandidatoId;
 import Modelo.Publicacion;
 import Modelo.Usuario;
 import java.util.Date;
+import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -32,6 +33,25 @@ public class EsCandidatoC {
             if (session.isOpen()) {
                 session.close();
             }
+        }
+    }
+
+    /* Regresa la lista de candidatos de la Publicacion p */
+    public List<Usuario> listaCandidatos(Publicacion p) {
+        try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().openSession();
+            }
+            Transaction tx = session.beginTransaction();
+            Query q = session.createSQLQuery("select * from usuario where "
+                    + "id_usuario in(select id_candidato from es_candidato where"
+                    + " id_publicacion = " + p.getIdPublicacion() + ")").addEntity(Usuario.class);
+            List<Usuario> lista = q.list();
+            tx.commit();
+            return lista;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

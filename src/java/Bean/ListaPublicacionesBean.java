@@ -63,7 +63,7 @@ public class ListaPublicacionesBean {
         } catch (Exception e) {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
         }
-        return "index";
+        return "PerfilIH";
     }
 
 }

@@ -143,13 +143,15 @@ public class PublicacionC {
                 session = HibernateUtil.getSessionFactory().getCurrentSession();
             }
             Transaction tx = session.beginTransaction();
-            p = (Publicacion) session.get(Publicacion.class, id);
+            Query q = session.createSQLQuery("select * from publicacion where id_publicacion = :id")
+                    .addEntity(Publicacion.class)
+                    .setInteger("id", id);
+            p = (Publicacion) q.uniqueResult();
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            return p;
         }
+        return p;
     }
 
     /* Actualiza la Publicacion p en la base de datos */

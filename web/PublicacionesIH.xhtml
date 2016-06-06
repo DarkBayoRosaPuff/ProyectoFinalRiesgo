@@ -88,12 +88,14 @@
                                             width="300" />
                             <hr style="color: #43BFC7"/>
                             <a style="color: #080808"
-                               href="https://www.google.com.mx/maps/place/#{resultado.lugarDeIntercambio}+México" target="_blank">
+                               href="https://www.google.com.mx/maps/place/#{resultado.lugarDeIntercambio}" target="_blank">
                                 <span style="color: #080808" class="">
                                     <h2>Ubicación del libro: </h2> <h2 style="color: #28a4c9">#{resultado.lugarDeIntercambio}</h2>
                                 </span>
                             </a>
-                            <h:commandLink value="Editar esta publicación" action="#{consultarBean.editaPublicacion(resultado)}"/>        
+                            <h:commandLink value="Editar esta publicación" action="#{consultarBean.editaPublicacion(resultado)}"/> 
+                            <br/>
+                            <h:commandLink value="Candidatos" action="#{consultarBean.redireccionaCandidatos(resultado)}"/> 
                         </section>
                     </c:forEach>    
                 </h:form>    
