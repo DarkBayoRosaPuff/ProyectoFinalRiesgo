@@ -73,9 +73,7 @@
 
                             <br/>
                             <h2><h:outputLabel value="No se obtuvo ningun resultado :(" rendered="#{empty consultarBean.resultados}"/></h2>
-
-
-                            <c:forEach items="#{consultarBean.resultados}" var="resultado" rendered="#{consultarBean.resultados}">
+                            <c:forEach items="#{consultarBean.resultados}" var="resultado">
                                 <section> 
                                     <h2>Fecha de la publicación:</h2> <h2 style="color: #28a4c9">#{resultado.fecha}</h2>
                                     <h2>Publicado por:</h2> <h2 style="color: #28a4c9">#{resultado.usuarioByIdDueno.nombre}</h2>                                                            
@@ -86,9 +84,9 @@
                                     <h2>ISBN: </h2> <h2 style="color: #28a4c9">#{resultado.isbn}</h2>
                                     <h2>Ubicación del libro: </h2> <h2 style="color: #28a4c9">#{resultado.lugarDeIntercambio}</h2>                                                                 
                                     <f:view>
-                                        <m:map width="600px" height="600px" zoom="100"  address="#{resultado.lugarDeIntercambio}+México" type="G_NORMAL_MAP">
+                                        <m:map width="600px" height="600px" zoom="100"  address="#{resultado.lugarDeIntercambio}" type="G_NORMAL_MAP">
                                             <m:mapControl name="GLargeMapControl" position="G_ANCHOR_BOTTOM_RIGHT"/>
-                                            <m:marker address="#{resultado.lugarDeIntercambio}+México"/>
+                                            <m:marker address="#{resultado.lugarDeIntercambio}"/>
                                         </m:map>
                                     </f:view>  
                                     <hr/>
@@ -97,14 +95,6 @@
                                     <hr/>
                                     <hr style="color: #43BFC7"/>
                                 </section>                         
-                                <!-- Si es una publicacion ajena-->
-                                <c:if test ="#{consultarBean.esAjena(resultado)}">
-                                    <!-- Puedo pedirla prestada -->
-                                    <p:commandButton style="font-size:20px"
-                                                     class="button" value="Solicitar" 
-                                                     actionListener="#{consultarBean.pedir(resultado)}"/>
-                                </c:if>
-
                             </c:forEach>
                         </div>
                     </div>
