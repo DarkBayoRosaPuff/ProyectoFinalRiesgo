@@ -74,8 +74,8 @@
 
             <div align="center">
                 <h:form>
-                    <h2><h:outputLabel value="No has hecho ninguna publicación" rendered="#{empty consultarBean.usuario.publicacionsForIdDueno}"/></h2> 
-                    <c:forEach items="#{consultarBean.usuario.publicacionsForIdDueno}" var="resultado">
+                  <!--  <h2><h:outputLabel value="No has hecho ninguna publicación" rendered=""/></h2> -->
+                    <c:forEach items="#{consultarBean.listaPublicaciones}" var="resultado">
                         <section> 
                             <h2>Fecha de la publicación:</h2> <h2 style="color: #28a4c9">#{resultado.fecha}</h2>
                             <h2>Publicado por:</h2> <h2 style="color: #28a4c9">#{resultado.usuarioByIdDueno.nombre}</h2>                                                            
@@ -98,6 +98,8 @@
                             <h:commandLink value="Candidatos" action="#{consultarBean.redireccionaCandidatos(resultado)}" rendered="#{resultado.usuarioByElegido == null}"/> 
                             <br/>
                             <h:commandLink value="Finalizar" action="#{consultarBean.finaliza(resultado)}" rendered="#{(resultado.usuarioByElegido != null) and (not resultado.finalizado)}"/>
+                            <br/>
+                            <h:commandLink value="¿No se finalizó? Republicar" action="#{consultarBean.republica(resultado)}" rendered="#{(resultado.usuarioByElegido != null) and (not resultado.finalizado)}"/>
                             <br/>
                             <h:commandLink value="Eliminar" action="#{consultarBean.elimina(resultado)}"/>
                             

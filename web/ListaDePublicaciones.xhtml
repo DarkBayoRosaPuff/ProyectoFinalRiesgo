@@ -74,13 +74,13 @@
                             <h2>Edicion: </h2> <h2 style="color: #28a4c9">#{resultado.edicion}</h2>
                             <h2>ISBN: </h2> <h2 style="color: #28a4c9">#{resultado.isbn}</h2>
                             <!-- Por ahora comentaré lo que no se ve bien -->
-                           <!--  <o:graphicImage value="#{listaPublicacionesBean.mostrarImagen(resultado.idPublicacion)}"
+                           <!--  <o:graphicImage value="{listaPublicacionesBean.mostrarImagen(resultado.idPublicacion)}"
                                              width="300" />
                              <hr style="color: #43BFC7"/>
                              <f:view>
-                                 <m:map width="600px" height="600px" zoom="100"  address="#{resultado.lugarDeIntercambio}" type="G_NORMAL_MAP">
+                                 <m:map width="600px" height="600px" zoom="100"  address="{resultado.lugarDeIntercambio}" type="G_NORMAL_MAP">
                                      <m:mapControl name="GLargeMapControl" position="G_ANCHOR_BOTTOM_RIGHT"/>
-                                     <m:marker address="#{resultado.lugarDeIntercambio}"/>
+                                     <m:marker address="{resultado.lugarDeIntercambio}"/>
                                  </m:map>
                              </f:view>  
                              <hr/>-->

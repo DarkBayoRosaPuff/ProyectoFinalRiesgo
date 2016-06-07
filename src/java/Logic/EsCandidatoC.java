@@ -56,8 +56,28 @@ public class EsCandidatoC {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }finally{
+        } finally {
             session.close();
+        }
+    }
+
+    /* Registra al candidato */
+    public void eliminarCandidato(Usuario usuario, Publicacion p) {
+        try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
+            Transaction tx = session.beginTransaction();
+            Query sql = session.createSQLQuery("DELETE FROM es_candidato WHERE id_usuario = "
+                    + usuario.getIdUsuario() + "AND id_publicacion = " + p.getIdPublicacion());
+            sql.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session.isOpen()) {
+                session.close();
+            }
         }
     }
 }

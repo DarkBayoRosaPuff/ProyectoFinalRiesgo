@@ -120,9 +120,8 @@ public class ConsultarBean implements Serializable {
      * otro caso
      */
     public boolean esAjena(Publicacion publicacion) {
-        update();
         Usuario usuarioPublicacion = publicacion.getUsuarioByIdDueno();
-        return usuario.getIdUsuario() != usuarioPublicacion.getIdUsuario();
+        return !usuario.equals(usuarioPublicacion);
     }
 
     /**
@@ -210,17 +209,37 @@ public class ConsultarBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("publicacion", p);
         return "Candidatos";
     }
-  
+
     /* Finaliza la publicación */
-    public String finaliza(Publicacion p){
+    public String finaliza(Publicacion p) {
         p.setFinalizado(true);
         helper.actualizarPublicacion(p);
         return "PerfilIH";
     }
-    
+
     /* Elimina la publicación */
-    public String elimina(Publicacion p){
+    public String elimina(Publicacion p) {
         helper.elimina(p);
         return "PerfilIH";
     }
+
+    /* Republica la publicación (si esta no se finalizó por problemas internos)
+    Se debe eliminar al candidato y al elegido*/
+    public String republica(Publicacion p) {
+        /* Lo guardamos antes de hacerlo null, para poder eliminarlo */
+        Usuario candidato = p.getUsuarioByElegido();
+        /* Se actualiza la Publicacion */
+        p.setUsuarioByElegido(null);
+        helper.actualizarPublicacion(p);
+        /* Se borra al candidato */
+        canHelper.eliminarCandidato(candidato, p);
+        return "index";
+    }
+
+    /* Regresa la lista de publicaciones del usuario */
+    public Set<Publicacion> getListaPublicaciones() {
+        update();
+        return this.usuario.getPublicacionsForIdDueno();
+    }
+
 }

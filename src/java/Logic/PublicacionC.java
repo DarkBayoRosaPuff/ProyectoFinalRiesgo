@@ -32,7 +32,7 @@ public class PublicacionC {
         /* Lo pongo por si se cierra la sesión en otro método */
         try {
             if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().getCurrentSession();
+                session = HibernateUtil.getSessionFactory().openSession();
             }
             Transaction tx = session.beginTransaction();
             java.util.Date fecha = new Date();
@@ -75,10 +75,10 @@ public class PublicacionC {
     public List<Publicacion> listar() {
         try {
             if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().getCurrentSession();
+                session = HibernateUtil.getSessionFactory().openSession();
             }
             Transaction tx = session.beginTransaction();
-            Criteria cri = session.createCriteria(Publicacion.class).add(Restrictions.isNull("usuarioByElegido")).add(Restrictions.eq("finalizado", true));
+            Criteria cri = session.createCriteria(Publicacion.class).add(Restrictions.isNull("usuarioByElegido")).add(Restrictions.eq("finalizado", false));
             lstPublicaciones = cri.list();
         } catch (Exception e) {
             e.printStackTrace();
