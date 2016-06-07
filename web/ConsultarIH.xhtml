@@ -86,11 +86,10 @@
                                             <h2 align="center">Edicion: </h2> <h2 style="color: #28a4c9" align="center">#{resultado.edicion}</h2>
                                             <h2 align="center">ISBN: </h2> <h2 style="color: #28a4c9" align="center">#{resultado.isbn}</h2>
                                             <!--Lo comento por ahora pues no va a servir -->
-					<!-- <c:if test="#{consultarBean.esAjena(resultado)}" >
-                                                <p:commandButton style="font-size:20px"
-                                                                 ajax="false" class="button" value="Pedir prestado" 
-                                                                 action="#{consultarBean.pedir(resultado)}"/>
-                                            </c:if>     -->
+                                            <c:if test="#{consultarBean.esAjena(resultado)}" >
+                                                <h:commandLink value="Solicitar" action="#{listaPublicacionesBean.pedir(resultado)}"
+                                                               disabled = "#{not consultarBean.esAjena(resultado)}"/>  
+                                            </c:if>     
                                         </div>
                                         <h2 align="center">Ubicación del libro: </h2> <h2 style="color: #28a4c9" align="center">#{resultado.lugarDeIntercambio}</h2>                                                                 
                                         <f:view>
