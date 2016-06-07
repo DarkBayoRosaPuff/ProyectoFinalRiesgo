@@ -71,7 +71,7 @@
                         <div>
 
                             <br/>
-                            <h2><h:outputLabel value="No se obtuvo ningun resultado :(" rendered="#{empty consultarBean.resultados}"/></h2>
+                            <h2><h:outputLabel value="No se obtuvo ningun resultado :(" rendered="#{empty consultarBean.resultados} "/></h2>
 
                             <c:forEach items="#{consultarBean.resultados}" var="resultado" rendered="#{consultarBean.resultados}">
                                 <c:if test="#{consultarBean.esAjena(resultado) and (not resultado.finalizado)}">
