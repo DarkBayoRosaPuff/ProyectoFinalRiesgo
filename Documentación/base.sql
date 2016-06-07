@@ -5,7 +5,7 @@ id_usuario SERIAL PRIMARY KEY,
 nombre VARCHAR(255) NOT NULL,
 contrasena VARCHAR(255) NOT NULL,
 correo VARCHAR(255) UNIQUE NOT NULL,
-telefono VARCHAR(15),
+telefono VARCHAR(15)
 /* Borré los CONSTRAINTS porque me mandaban error */
 /* CONSTRAINT correocorrecto CHECK (correo::text ~ '^[w!#$%&''*+/=?`{|}~^-]+(.[w!#$%&''*+/=?`{|}~^-]+)*@[w-]+(.[w-]+)*$'::text) */
 );
