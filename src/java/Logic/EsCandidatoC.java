@@ -68,7 +68,7 @@ public class EsCandidatoC {
                 session = HibernateUtil.getSessionFactory().getCurrentSession();
             }
             Transaction tx = session.beginTransaction();
-            Query sql = session.createSQLQuery("DELETE FROM es_candidato WHERE id_usuario = "
+            Query sql = session.createSQLQuery("DELETE FROM es_candidato WHERE id_candidato = "
                     + usuario.getIdUsuario() + "AND id_publicacion = " + p.getIdPublicacion());
             sql.executeUpdate();
             tx.commit();

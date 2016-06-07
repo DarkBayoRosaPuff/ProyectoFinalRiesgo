@@ -54,9 +54,16 @@ public class ListaPublicacionesBean {
         }
     }
 
+    /* Actualiza al usuario actual ._. */
+    public void update() {
+        usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
+    }
+
     /* Solicita un intercambio de libros */
     public String pedir(Publicacion publicacionSolicitada) {
         try {
+            /* Actualizar al usuario(?) */
+            update();
             canHelper.registrarCandidato(usuario, publicacionSolicitada);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tu peticion de prestamo fue recibida correctamente", null);
         } catch (Exception e) {

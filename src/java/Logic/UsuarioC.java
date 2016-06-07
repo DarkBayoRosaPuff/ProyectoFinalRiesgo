@@ -23,8 +23,8 @@ public class UsuarioC {
      */
     public UsuarioC() {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
-    }    
-    
+    }
+
     public void registrarBD(Usuario usuario) {
         Transaction tx = session.beginTransaction();
         session.save(usuario);
@@ -46,10 +46,13 @@ public class UsuarioC {
             // INCLUIR EN EL .SETSTRING TAMBN LA CONTRASEÑA DEL USUARIO PERO LUEGO VEMOS CON EL MD5, IGUAL Y SE HACE EN EL BEAN
             resultado = (Usuario) q.uniqueResult();
             //Si regresa null, significa que el usuario no esta registrado en la BD, no recuerdo donde afecta es
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            session.close();
+            if (session.isOpen()) {
+                session.close();
+            }
             return resultado;
         }
 

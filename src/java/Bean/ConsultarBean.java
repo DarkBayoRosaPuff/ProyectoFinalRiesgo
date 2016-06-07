@@ -233,7 +233,7 @@ public class ConsultarBean implements Serializable {
         helper.actualizarPublicacion(p);
         /* Se borra al candidato */
         canHelper.eliminarCandidato(candidato, p);
-        return "index";
+        return "PerfilIH";
     }
 
     /* Regresa la lista de publicaciones del usuario */

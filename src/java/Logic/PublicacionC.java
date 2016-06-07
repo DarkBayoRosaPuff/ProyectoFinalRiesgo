@@ -80,6 +80,7 @@ public class PublicacionC {
             Transaction tx = session.beginTransaction();
             Criteria cri = session.createCriteria(Publicacion.class).add(Restrictions.isNull("usuarioByElegido")).add(Restrictions.eq("finalizado", false));
             lstPublicaciones = cri.list();
+            tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -159,7 +160,7 @@ public class PublicacionC {
     public void actualizarPublicacion(Publicacion p) {
         try {
             if (session == null || !session.isOpen()) {
-                session = HibernateUtil.getSessionFactory().getCurrentSession();
+                session = HibernateUtil.getSessionFactory().openSession();
             }
             Transaction tx = session.beginTransaction();
             session.update(p);
