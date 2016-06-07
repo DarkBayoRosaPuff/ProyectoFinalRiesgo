@@ -4,11 +4,10 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:o="http://omnifaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:m="http://code.google.com/p/gmaps4jsf/"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:o="http://omnifaces.org/ui">
+      xmlns:m="http://code.google.com/p/gmaps4jsf/">
     <h:head>
         <script 
             src="http://maps.google.com/maps?file=api&amp;v=2&amp;"
@@ -73,28 +72,40 @@
 
                             <br/>
                             <h2><h:outputLabel value="No se obtuvo ningun resultado :(" rendered="#{empty consultarBean.resultados}"/></h2>
-                            <c:forEach items="#{consultarBean.resultados}" var="resultado">
-                                <section> 
-                                    <h2>Fecha de la publicación:</h2> <h2 style="color: #28a4c9">#{resultado.fecha}</h2>
-                                    <h2>Publicado por:</h2> <h2 style="color: #28a4c9">#{resultado.usuarioByIdDueno.nombre}</h2>                                                            
-                                    <h2>Libro: </h2> <h2 style="color: #28a4c9">#{resultado.titulo}</h2>
-                                    <h2>Autor: </h2> <h2 style="color: #28a4c9">#{resultado.autor}</h2>
-                                    <h2>Editorial: </h2> <h2 style="color: #28a4c9">#{resultado.editorial}</h2>
-                                    <h2>Edicion: </h2> <h2 style="color: #28a4c9">#{resultado.edicion}</h2>
-                                    <h2>ISBN: </h2> <h2 style="color: #28a4c9">#{resultado.isbn}</h2>
-                                    <h2>Ubicación del libro: </h2> <h2 style="color: #28a4c9">#{resultado.lugarDeIntercambio}</h2>                                                                 
-                                    <f:view>
-                                        <m:map width="600px" height="600px" zoom="100"  address="#{resultado.lugarDeIntercambio}" type="G_NORMAL_MAP">
-                                            <m:mapControl name="GLargeMapControl" position="G_ANCHOR_BOTTOM_RIGHT"/>
-                                            <m:marker address="#{resultado.lugarDeIntercambio}"/>
-                                        </m:map>
-                                    </f:view>  
-                                    <hr/>
-                                    <o:graphicImage value="#{consultarBean.mostrarImagen(resultado.idPublicacion)}"
+
+
+                            <c:forEach items="#{consultarBean.resultados}" var="resultado" rendered="#{consultarBean.resultados}">
+                                <c:if test="#{consultarBean.esAjena(resultado)}">
+                                    <section>
+                                        <div align="left" class="col-md-3" >
+                                            <h2 align="center">Fecha de la publicación:</h2> <h2 style="color: #28a4c9" align="center">#{resultado.fecha}</h2>
+                                            <h2 align="center">Publicado por:</h2> <h2 style="color: #28a4c9" align="center">#{resultado.usuarioByIdDueno.nombre}</h2>                                                            
+                                            <h2 align="center">Libro: </h2> <h2 style="color: #28a4c9" align="center">#{resultado.titulo}</h2>
+                                            <h2 align="center">Autor: </h2> <h2 style="color: #28a4c9" align="center">#{resultado.autor}</h2>
+                                            <h2 align="center">Editorial: </h2> <h2 style="color: #28a4c9" align="center">#{resultado.editorial}</h2>
+                                            <h2 align="center">Edicion: </h2> <h2 style="color: #28a4c9" align="center">#{resultado.edicion}</h2>
+                                            <h2 align="center">ISBN: </h2> <h2 style="color: #28a4c9" align="center">#{resultado.isbn}</h2>
+                                            <!--Lo comento por ahora pues no va a servir -->
+					<!-- <c:if test="#{consultarBean.esAjena(resultado)}" >
+                                                <p:commandButton style="font-size:20px"
+                                                                 ajax="false" class="button" value="Pedir prestado" 
+                                                                 action="#{consultarBean.pedir(resultado)}"/>
+                                            </c:if>     -->
+                                        </div>
+                                        <h2 align="center">Ubicación del libro: </h2> <h2 style="color: #28a4c9" align="center">#{resultado.lugarDeIntercambio}</h2>                                                                 
+                                        <f:view>
+                                            <m:map width="600px" height="600px" zoom="100"  address="#{resultado.lugarDeIntercambio}" type="G_NORMAL_MAP">
+                                                <m:mapControl name="GLargeMapControl" position="G_ANCHOR_BOTTOM_RIGHT"/>
+                                                <m:marker address="#{resultado.lugarDeIntercambio}"/>
+                                            </m:map>
+                                        </f:view>  
+                                        <hr/>
+                                        <o:graphicImage value="#{consultarBean.mostrarImagen(resultado.idPublicacion)}"
                                                     width="300" />
-                                    <hr/>
-                                    <hr style="color: #43BFC7"/>
-                                </section>                         
+                                        <hr/>
+                                        <hr style="color: #43BFC7"/>
+                                    </section>
+                                </c:if>
                             </c:forEach>
                         </div>
                     </div>
