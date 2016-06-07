@@ -7,7 +7,8 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:o="http://omnifaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:m="http://code.google.com/p/gmaps4jsf/">
+      xmlns:m="http://code.google.com/p/gmaps4jsf/"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Candidatos</title>
         <meta charset="utf-8"/>
@@ -64,15 +65,22 @@
 
             <div align="center">
                 <h:form>
-                    <c:forEach items="#{candidatosBean.lista()}" var="candidato">
-                        <section> 
-                            <span class="byline">
-                                <h2>Usuario:</h2> <h2 style="color: #28a4c9">#{candidato.nombre}</h2>
-                                <h2>Teléfono:</h2> <h2 style="color: #28a4c9">#{candidato.telefono}</h2>                                                            
-                                <h2>Correo: </h2> <h2 style="color: #28a4c9">#{candidato.correo}</h2>
-                            </span>
-                        </section>
-                    </c:forEach>    
+                    <p:dataTable value="#{candidatosBean.listaCandidatos}" 
+                                 paginatorPosition="bottom" var="candidato" widgetVar="tablaCandidatos" paginator="true" style="margin-bottom:20px">
+                        <p:column headerText="Nombre" filterBy="#{candidato.nombre}" >
+                            <p:outputLabel value="#{candidato.nombre}" />
+                        </p:column>
+                        <p:column headerText="Teléfono" filterBy="#{candidato.telefono}" >
+                            <p:outputLabel value="#{candidato.telefono}" />
+                        </p:column>
+                        <p:column headerText="Correo" filterBy="#{candidato.correo}" >
+                            <p:outputLabel value="#{candidato.correo}" />
+                        </p:column>
+                        <p:column headerText="Aceptar" filterBy="#{candidato.nombre}" >
+                            <p:link value="Aceptar" outcome="#{candidatosBean.aceptar(candidato)}" >
+                            </p:link>
+                        </p:column>
+                    </p:dataTable>
                 </h:form>    
             </div>
         </c:if>  

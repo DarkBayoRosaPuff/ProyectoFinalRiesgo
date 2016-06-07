@@ -6,6 +6,7 @@ import Modelo.EsCandidatoId;
 import Modelo.Publicacion;
 import Modelo.Usuario;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -42,6 +43,9 @@ public class EsCandidatoC {
             if (session == null || !session.isOpen()) {
                 session = HibernateUtil.getSessionFactory().openSession();
             }
+            if (p == null) {
+                return new LinkedList<>();
+            }
             Transaction tx = session.beginTransaction();
             Query q = session.createSQLQuery("select * from usuario where "
                     + "id_usuario in(select id_candidato from es_candidato where"
@@ -52,6 +56,8 @@ public class EsCandidatoC {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }finally{
+            session.close();
         }
     }
 }
