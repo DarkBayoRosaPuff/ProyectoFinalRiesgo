@@ -9,6 +9,7 @@ import Modelo.Usuario;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -77,7 +78,7 @@ public class PublicacionC {
                 session = HibernateUtil.getSessionFactory().getCurrentSession();
             }
             Transaction tx = session.beginTransaction();
-            Criteria cri = session.createCriteria(Publicacion.class);
+            Criteria cri = session.createCriteria(Publicacion.class).add(Restrictions.isNull("usuarioByElegido")).add(Restrictions.eq("finalizado", true));
             lstPublicaciones = cri.list();
         } catch (Exception e) {
             e.printStackTrace();
@@ -169,6 +170,26 @@ public class PublicacionC {
             if (session.isOpen()) {
                 session.close();
             }
+        }
+    }
+
+    /* Elimina la publicación */
+    public void elimina(Publicacion p) {
+        try {
+            if (session == null || !session.isOpen()) {
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+            }
+            Transaction tx = session.beginTransaction();
+            Query sql = session.createSQLQuery("DELETE FROM es_candidato"
+                    + " WHERE id_publicacion = " + p.getIdPublicacion());
+            sql.executeUpdate();
+            Query sql2 = session.createSQLQuery("DELETE FROM publicacion"
+                    + " WHERE id_publicacion = " + p.getIdPublicacion());
+            sql2.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
         }
     }
 }

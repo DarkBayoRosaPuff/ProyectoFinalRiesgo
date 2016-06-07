@@ -21,7 +21,7 @@ public class CandidatosBean {
     private EsCandidatoC helper;
     private PublicacionC conP;
     /* Lista de candidatos de la Publicacion */
-    private List<Usuario> listaCandidatos; 
+    private List<Usuario> listaCandidatos;
 
     /* Saca a la Publicacion del Flash */
     public CandidatosBean() {
@@ -41,7 +41,6 @@ public class CandidatosBean {
     public String aceptar(Usuario candidato) {
         this.publicacion.setUsuarioByElegido(candidato);
         conP.actualizarPublicacion(publicacion);
-        System.out.println("Bamos Vien");
         return "PerfilIH";
     }
 
@@ -53,5 +52,4 @@ public class CandidatosBean {
         this.listaCandidatos = listaCandidatos;
     }
 
-    
 }

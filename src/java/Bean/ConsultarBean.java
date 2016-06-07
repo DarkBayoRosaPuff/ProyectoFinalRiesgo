@@ -1,11 +1,8 @@
 package Bean;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,8 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Serializable;
 import javax.enterprise.context.ApplicationScoped;
-import javax.faces.bean.ViewScoped;
-import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
 
 /**
  * Bean que maneja las consultas, generalmente con metodos relacionados a
@@ -215,5 +210,17 @@ public class ConsultarBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("publicacion", p);
         return "Candidatos";
     }
-
+  
+    /* Finaliza la publicación */
+    public String finaliza(Publicacion p){
+        p.setFinalizado(true);
+        helper.actualizarPublicacion(p);
+        return "PerfilIH";
+    }
+    
+    /* Elimina la publicación */
+    public String elimina(Publicacion p){
+        helper.elimina(p);
+        return "PerfilIH";
+    }
 }

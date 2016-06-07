@@ -95,7 +95,12 @@
                             </a>
                             <h:commandLink value="Editar esta publicación" action="#{consultarBean.editaPublicacion(resultado)}"/> 
                             <br/>
-                            <h:commandLink value="Candidatos" action="#{consultarBean.redireccionaCandidatos(resultado)}"/> 
+                            <h:commandLink value="Candidatos" action="#{consultarBean.redireccionaCandidatos(resultado)}" rendered="#{resultado.usuarioByElegido == null}"/> 
+                            <br/>
+                            <h:commandLink value="Finalizar" action="#{consultarBean.finaliza(resultado)}" rendered="#{(resultado.usuarioByElegido != null) and (not resultado.finalizado)}"/>
+                            <br/>
+                            <h:commandLink value="Eliminar" action="#{consultarBean.elimina(resultado)}"/>
+                            
                         </section>
                     </c:forEach>    
                 </h:form>    

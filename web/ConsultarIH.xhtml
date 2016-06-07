@@ -75,7 +75,7 @@
 
 
                             <c:forEach items="#{consultarBean.resultados}" var="resultado" rendered="#{consultarBean.resultados}">
-                                <c:if test="#{consultarBean.esAjena(resultado)}">
+                                <c:if test="#{consultarBean.esAjena(resultado) and (not resultado.finalizado)}">
                                     <section>
                                         <div align="left" class="col-md-3" >
                                             <h2 align="center">Fecha de la publicación:</h2> <h2 style="color: #28a4c9" align="center">#{resultado.fecha}</h2>
