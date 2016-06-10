@@ -79,11 +79,15 @@
                             <h3 align="center">Imagen:</h3>
                             <p:growl id="messages" showDetail="true" />
                             <p:fileUpload value="#{publicacionBean.image}" mode="simple"/>
+                            <p:commandButton value="Subir foto" ajax="false"
+                                             actionListener="#{publicacionBean.guardaImagen()}"/>
+
                             <h3 align="center">Lugar de intercambio:</h3>
+
                             <p:inputText pt:placeholder="Lugar de intercambio" value="#{publicacionBean.publicacion.lugarDeIntercambio}" label="lugarDeIntercambio"/> 
 
-                            <p:commandButton value="Publicar" ajax="false" action="#{publicacionBean.registrarPublicacion()}" actionListener="#{publicacionBean.guardaImagen()}" styleClass="button solid-color">
-                            </p:commandButton>                        
+                            <h:commandButton value="Publicar" action="#{publicacionBean.registrarPublicacion()}" styleClass="button solid-color">
+                            </h:commandButton>                 
                         </h:panelGrid>
                     </span>
                 </h:form>             
