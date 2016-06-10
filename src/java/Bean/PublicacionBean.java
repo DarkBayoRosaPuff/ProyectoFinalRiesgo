@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/* Controlador de publicaciones */
 package Bean;
 
 import javax.faces.application.FacesMessage;
@@ -12,16 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import Modelo.Publicacion;
 import Modelo.Usuario;
 import Logic.PublicacionC;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import java.text.ParseException;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -53,8 +54,15 @@ public class PublicacionBean implements Serializable {
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
     }
 
-    public String registrarPublicacion() {
+    public String registrarPublicacion() throws Exception {
         try {
+            if (!publicacion.getLugarDeIntercambio().isEmpty()) {
+                if (!validaDireccion(publicacion.getLugarDeIntercambio())) {
+                    message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "La dirección no existe", null);
+                    FacesContext.getCurrentInstance().addMessage(null, message);
+                    return "";
+                }
+            }
             helper.registrarBD(publicacion, usuario);
             int identificador = publicacion.getIdPublicacion();
             publicacion.setFecha(new Date());
@@ -190,13 +198,37 @@ public class PublicacionBean implements Serializable {
             return;
         }
     }
-    
+
     public UploadedFile getImage() {
         return image;
     }
 
     public void setImage(UploadedFile image) {
         this.image = image;
+    }
+
+    /* Valida una dirección usando el API de google */
+    public boolean validaDireccion(String direccion) throws Exception {
+        /* Se parte la cadena */
+        String[] partes = direccion.split(" ");
+        /* Direccion del api de google para hacer la geocodificación */
+        String web = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+        for (String parte : partes) {
+            web += parte;
+            web += "+";
+        }
+        web = web.substring(0, web.length() - 1);
+        web += "&key=AIzaSyBm6PxF819E486cU6Y4b6cBU3IhDVYZ29Q";
+        URL url = new URL(web);
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
+        /* Sacamos el atributo "status" del Json que regresa Google */
+        JsonParser jp = new JsonParser();
+        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
+        JsonObject rootobj = root.getAsJsonObject();
+        String status = rootobj.get("status").getAsString();
+        /* Regresamos si la direccion existe */
+        return status.equals("OK");
     }
 
 }
