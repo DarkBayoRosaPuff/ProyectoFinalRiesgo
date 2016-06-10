@@ -67,9 +67,11 @@ public class PublicacionBean implements Serializable {
             int identificador = publicacion.getIdPublicacion();
             publicacion.setFecha(new Date());
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Publicacion realizada con éxito", null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
             return "PerfilIH";
         } catch (org.hibernate.TransientPropertyValueException ex) {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio un error al publicar", null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
             return "PublicarIH";
         }
     }
