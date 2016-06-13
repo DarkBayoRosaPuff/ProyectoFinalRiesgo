@@ -32,7 +32,6 @@ import javax.servlet.http.Part;
 import org.primefaces.model.UploadedFile;
 
 @ManagedBean
-/* Imágenes no servía con @RequestScoped so adiós FacesMessage :v */
 @ViewScoped
 @Named(value = "publicacionBean")
 public class PublicacionBean implements Serializable {
@@ -63,6 +62,7 @@ public class PublicacionBean implements Serializable {
                     return "";
                 }
             }
+            guardaImagen();
             helper.registrarBD(publicacion, usuario);
             int identificador = publicacion.getIdPublicacion();
             publicacion.setFecha(new Date());
@@ -92,54 +92,6 @@ public class PublicacionBean implements Serializable {
     }
 
     /**
-     * Metodo que carga el objeto subido en la vista Y lo guarda en un
-     * directorio absoluto
-     *
-     * @throws IOException
-     */
-    public void upload(int id) throws IOException {
-        InputStream inputStream = imagen.getInputStream();
-        FileOutputStream outputStream = new FileOutputStream(getFilename(imagen));
-
-        byte[] buffer = new byte[4096];
-        int bytesRead;
-        while (true) {
-            bytesRead = inputStream.read(buffer);
-            if (bytesRead > 0) {
-                outputStream.write(buffer, 0, bytesRead);
-            } else {
-                break;
-            }
-        }
-        outputStream.close();
-        inputStream.close();
-        System.out.println("Imagen cargada correctamente");
-
-        File archivo = new File("//home//jorge//NetBeansProjects//prestamodelibros//web//imagenes//" + id + ".jpeg");
-        Path ruta = archivo.toPath();
-        try (InputStream input = imagen.getInputStream()) {
-            Files.copy(input, ruta, REPLACE_EXISTING);
-        }
-        System.out.println("Imagen disque guardada en: " + ruta);
-    }
-
-    /**
-     * Metodo que obtiene el nombre de archivo a partir de un objeto de datos
-     *
-     * @param part Objeto con datos del archivo subido
-     * @return String con el nombre del archivo
-     */
-    private static String getFilename(Part part) {
-        for (String cd : part.getHeader("content-disposition").split(";")) {
-            if (cd.trim().startsWith("filename")) {
-                String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-                return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
-            }
-        }
-        return null;
-    }
-
-    /**
      * Metodo que actualiza el contexto actual y el httpservlet Asi como la
      * variable que contiene al usuario de la sesion actual
      */
@@ -150,22 +102,6 @@ public class PublicacionBean implements Serializable {
         if (usuario == null) {
             usuario = new Usuario();
         }
-    }
-
-    public Publicacion getPublicacion() {
-        return publicacion;
-    }
-
-    public void setPublicacion(Publicacion publicacion) {
-        this.publicacion = publicacion;
-    }
-
-    public Part getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(Part imagen) {
-        this.imagen = imagen;
     }
 
     /* Guarda la imagen en la carpeta imagenes */
@@ -199,15 +135,7 @@ public class PublicacionBean implements Serializable {
         } else {
             return;
         }
-    }
-
-    public UploadedFile getImage() {
-        return image;
-    }
-
-    public void setImage(UploadedFile image) {
-        this.image = image;
-    }
+    }    
 
     /* Valida una dirección usando el API de google */
     public boolean validaDireccion(String direccion) throws Exception {
@@ -231,6 +159,30 @@ public class PublicacionBean implements Serializable {
         String status = rootobj.get("status").getAsString();
         /* Regresamos si la direccion existe */
         return status.equals("OK");
+    }    
+
+    public Publicacion getPublicacion() {
+        return publicacion;
+    }
+
+    public void setPublicacion(Publicacion publicacion) {
+        this.publicacion = publicacion;
+    }
+
+    public Part getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Part imagen) {
+        this.imagen = imagen;
+    }
+
+    public UploadedFile getImage() {
+        return image;
+    }
+
+    public void setImage(UploadedFile image) {
+        this.image = image;
     }
 
 }

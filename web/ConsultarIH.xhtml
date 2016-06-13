@@ -84,7 +84,6 @@
                                             <h2 align="center">Editorial: </h2> <h2 style="color: #28a4c9" align="center">#{resultado.editorial}</h2>
                                             <h2 align="center">Edicion: </h2> <h2 style="color: #28a4c9" align="center">#{resultado.edicion}</h2>
                                             <h2 align="center">ISBN: </h2> <h2 style="color: #28a4c9" align="center">#{resultado.isbn}</h2>
-                                            <!--Lo comento por ahora pues no va a servir -->
                                             <c:if test="#{consultarBean.esAjena(resultado)}" >
                                                 <p:link value="Solicitar" outcome="#{listaPublicacionesBean.pedir(resultado)}" >
                                                 </p:link>
@@ -100,8 +99,7 @@
                                         <hr/>
                                         <o:graphicImage value="#{consultarBean.mostrarImagen(resultado.idPublicacion)}"
                                                         width="300" />
-                                        <hr/>
-                                        <hr style="color: #43BFC7"/>
+                                        <hr style="height:5px;border:none;color:#5bc0de;background-color:#5bc0de;"/>
                                     </section>
                                 </c:if>
                             </c:forEach>

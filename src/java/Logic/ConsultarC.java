@@ -68,7 +68,7 @@ public class ConsultarC {
         try {
             Transaction tx = session.beginTransaction();
             Query q = session.createSQLQuery("select * from publicacion where "
-                    + "LOWER(publicacion.titulo) ~ :clave  or LOWER(publicacion.autor) ~ :clave or LOWER(publicacion.editorial) ~ :clave or LOWER(publicacion.isbn) ~ :clave "
+                    + "LOWER(publicacion.titulo) ~ :clave  or LOWER(publicacion.autor) ~ :clave or LOWER(publicacion.edicion) ~ :clave or LOWER(publicacion.editorial) ~ :clave or LOWER(publicacion.isbn) ~ :clave "
                     + "or LOWER(CAST(publicacion.evaluacion_de_redaccion AS text)) ~ :clave or LOWER(CAST(publicacion.evaluacion_del_contenido AS text)) ~ :clave or LOWER(publicacion.lugar_de_intercambio) ~ :clave ;").addEntity(Publicacion.class).setString("clave", clave);
 
             resultados = (ArrayList<Publicacion>) q.list();
